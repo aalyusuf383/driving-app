@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Progressive Driving School LLC</title>
   
   <link rel="manifest" href="manifest.json">
@@ -10,34 +10,55 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Progressive DS">
-  
-  <!-- App-icoon voor het iPhone Startscherm -->
   <link rel="apple-touch-icon" href="Picture.PNG">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
-    body { -webkit-tap-highlight-color: transparent; }
+    body { 
+      -webkit-tap-highlight-color: transparent; 
+      background-color: #0a0f1d;
+    }
+    
+    /* Floating iOS Floating Glass Bar Effect */
+    .glass-floating-nav {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+
     .glass-card {
       background: rgba(15, 23, 42, 0.85);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(212, 175, 55, 0.2);
     }
+    
     .glass-nav {
       background: rgba(10, 15, 29, 0.92);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
+    
     .gold-gradient {
       background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
     }
+    
     .gold-text {
       background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 50%, #aa771c 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+
+    /* Splash Screen Fade Out */
+    #splash-screen {
+      transition: opacity 0.5s ease-out, visibility 0.5s;
+    }
+
     @media print {
       body * { visibility: hidden; }
       #printable-logbook, #printable-logbook * { visibility: visible; }
@@ -45,262 +66,434 @@
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 flex flex-col h-screen font-sans selection:bg-amber-500">
+<body class="bg-slate-950 text-slate-100 flex flex-col h-screen font-sans selection:bg-amber-500 overflow-hidden">
 
-  <!-- Top Brand Header (Behoudt IMG_0711.jpeg) -->
-  <header class="glass-nav px-4 py-3 flex items-center justify-between sticky top-0 z-50">
-    <div class="flex items-center gap-3">
-      <div class="relative">
-        <img src="IMG_0711.jpeg" class="w-10 h-10 rounded-xl object-cover border border-amber-500/40 shadow-lg shadow-amber-500/10" alt="Logo">
-        <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-slate-950"></div>
-      </div>
+  <!-- 1. SPLASH SCREEN (Opstartscherm met Logo) -->
+  <div id="splash-screen" class="fixed inset-0 bg-slate-950 z-[100] flex flex-col items-center justify-center p-6 text-center">
+    <div class="relative mb-6">
+      <img src="Picture.PNG" class="w-28 h-28 rounded-3xl object-cover border-2 border-amber-500/50 shadow-2xl shadow-amber-500/20 animate-pulse" alt="App Logo">
+    </div>
+    <h1 class="text-xl font-black tracking-widest text-white leading-tight">PROGRESSIVE</h1>
+    <p class="text-xs gold-text font-extrabold tracking-widest uppercase mt-1">Driving School LLC</p>
+  </div>
+
+  <!-- 2. LOGIN / PORTAL SCHERM -->
+  <div id="login-screen" class="fixed inset-0 bg-slate-950 z-[90] flex items-center justify-center p-4">
+    <div class="glass-card rounded-3xl p-6 w-full max-w-sm space-y-5 text-center shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+      
+      <img src="IMG_0711.jpeg" class="w-16 h-16 rounded-2xl object-cover mx-auto border border-amber-500/40 shadow-lg" alt="Logo">
+      
       <div>
-        <h1 class="text-xs font-black tracking-widest text-white leading-tight">PROGRESSIVE</h1>
-        <p class="text-[9px] gold-text font-extrabold tracking-widest uppercase">Driving School LLC</p>
-      </div>
-    </div>
-    <div class="flex gap-2">
-      <a href="https://wa.me/16147344272?text=Hi%20Progressive%20Driving%20School,%20I%20have%20a%20question%20about%20driving%20lessons." class="bg-emerald-600 active:scale-95 transition text-white text-xs p-2.5 rounded-xl font-bold flex items-center justify-center shadow-lg shadow-emerald-600/20 border border-emerald-400/30">
-        <i class="fa-brands fa-whatsapp text-sm"></i>
-      </a>
-      <a href="tel:6147344272" class="gold-gradient active:scale-95 transition text-slate-950 text-xs px-3 py-2 rounded-xl font-black flex items-center gap-1.5 shadow-lg shadow-amber-500/20">
-        <i class="fa-solid fa-phone text-xs"></i>
-        <span>Call</span>
-      </a>
-    </div>
-  </header>
-
-  <!-- Main Content Area -->
-  <main class="flex-1 overflow-y-auto p-4 space-y-4 pb-28">
-
-    <!-- TAB 1: DRIVING LOGTRACKER -->
-    <div id="tab-dashboard" class="tab-content space-y-4">
-
-      <!-- Ohio BMV Requirement Progress Card -->
-      <div class="glass-card rounded-3xl p-5 shadow-2xl relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
-        
-        <div class="flex justify-between items-start mb-4">
-          <div>
-            <span class="text-[9px] font-black uppercase tracking-widest text-amber-300 bg-amber-950/80 px-2.5 py-1 rounded-full border border-amber-500/40 shadow-inner">Ohio BMV Standard</span>
-            <h2 class="text-sm font-bold text-slate-200 mt-2">50-Hour Driving Goal</h2>
-          </div>
-          <button onclick="exportToPDF()" class="text-[10px] font-bold text-slate-950 gold-gradient px-3 py-1.5 rounded-xl flex items-center gap-1.5 active:scale-95 transition shadow-lg">
-            <i class="fa-solid fa-file-pdf"></i>
-            <span>Export PDF</span>
-          </button>
-        </div>
-
-        <div class="flex justify-between items-end my-4">
-          <div>
-            <span class="text-4xl font-black text-white tracking-tight" id="total-hours-display">0.0</span>
-            <span class="text-xs font-semibold text-slate-400 block mt-0.5">out of 50.0 total hrs</span>
-          </div>
-          <div class="text-right">
-            <span class="text-2xl font-black gold-text" id="percentage-display">0%</span>
-            <span class="text-[10px] font-medium text-slate-400 block">Completed</span>
-          </div>
-        </div>
-        
-        <!-- Dynamic Progress Bar -->
-        <div class="w-full bg-slate-900/90 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-800 shadow-inner mb-4">
-          <div id="progress-bar" class="gold-gradient h-full rounded-full transition-all duration-700 shadow-md" style="width: 0%"></div>
-        </div>
-
-        <!-- Day & Night Breakdown -->
-        <div class="grid grid-cols-2 gap-3 pt-3 border-t border-slate-800/80">
-          <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800">
-            <div class="flex items-center gap-1.5 mb-1">
-              <i class="fa-solid fa-sun text-amber-400 text-xs"></i>
-              <span class="text-xs text-slate-400 font-semibold">Day Drives</span>
-            </div>
-            <span class="text-sm font-bold text-slate-100" id="day-hours-display">0.0 / 40.0 hrs</span>
-          </div>
-          <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800">
-            <div class="flex items-center gap-1.5 mb-1">
-              <i class="fa-solid fa-moon text-indigo-400 text-xs"></i>
-              <span class="text-xs text-slate-400 font-semibold">Night Drives</span>
-            </div>
-            <span class="text-sm font-bold text-indigo-200" id="night-hours-display">0.0 / 10.0 hrs</span>
-          </div>
-        </div>
+        <h2 class="text-base font-bold text-white">Welcome to Progressive DS</h2>
+        <p class="text-xs text-slate-400 mt-1">Select your access portal to continue</p>
       </div>
 
-      <!-- Live Driving Timer -->
-      <div class="glass-card rounded-3xl p-5 shadow-2xl text-center relative">
-        <div class="flex justify-between items-center mb-3 px-1">
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> Practice Tracker
-          </span>
-          <select id="drive-type" class="bg-slate-950 border border-slate-800 text-xs font-semibold text-slate-200 rounded-xl px-2.5 py-1.5 outline-none focus:border-amber-500">
-            <option value="day">☀️ Day Drive</option>
-            <option value="night">🌙 Night Drive</option>
-          </select>
-        </div>
+      <div class="space-y-3 pt-2">
+        <button onclick="enterAsStudent()" class="w-full gold-gradient text-slate-950 font-black py-3.5 px-4 rounded-2xl shadow-xl active:scale-98 transition text-xs flex items-center justify-center gap-2">
+          <i class="fa-solid fa-user-graduate text-sm"></i>
+          <span>Student Portal & Logbook</span>
+        </button>
 
-        <div class="text-4xl font-mono font-black text-white tracking-widest my-4 bg-slate-950/90 py-4 rounded-2xl border border-slate-800 shadow-inner" id="timer-display">00:00:00</div>
-        
-        <button id="btn-timer" onclick="toggleTimer()" class="w-full gold-gradient active:scale-98 text-slate-950 font-black py-3.5 px-4 rounded-2xl shadow-xl shadow-amber-500/10 border border-amber-300/30 transition-all flex items-center justify-center gap-2 text-xs">
-          <i class="fa-solid fa-play"></i>
-          <span>Start Driving Session</span>
+        <button onclick="switchTab('register'); enterPortal();" class="w-full bg-slate-900 border border-amber-500/40 text-amber-300 font-bold py-3.5 px-4 rounded-2xl active:scale-98 transition text-xs flex items-center justify-center gap-2">
+          <i class="fa-solid fa-file-pen text-sm"></i>
+          <span>New Student Enrollment Form</span>
+        </button>
+
+        <button onclick="switchTab('admin'); enterPortal();" class="w-full bg-slate-900/60 border border-slate-800 text-slate-400 font-semibold py-3 px-4 rounded-2xl active:scale-98 transition text-xs flex items-center justify-center gap-2">
+          <i class="fa-solid fa-user-shield text-xs"></i>
+          <span>Instructor / Admin Portal</span>
         </button>
       </div>
+    </div>
+  </div>
 
-      <!-- Recent Log History -->
-      <div class="glass-card rounded-3xl p-5 shadow-2xl space-y-3">
-        <div class="flex justify-between items-center border-b border-slate-800/80 pb-2.5">
-          <h3 class="text-xs font-bold text-white uppercase tracking-wider">Drive History</h3>
-          <span class="text-[10px] font-semibold text-slate-400 bg-slate-900 px-2 py-0.5 rounded-full border border-slate-800" id="history-count">0 sessions</span>
+  <!-- MAIN APP CONTAINER -->
+  <div id="app-container" class="flex flex-col h-full w-full hidden">
+
+    <!-- Top Brand Header -->
+    <header class="glass-nav px-4 py-3 pt-10 flex items-center justify-between sticky top-0 z-40">
+      <div class="flex items-center gap-3">
+        <div class="relative">
+          <img src="IMG_0711.jpeg" class="w-10 h-10 rounded-xl object-cover border border-amber-500/40 shadow-lg shadow-amber-500/10" alt="Logo">
+          <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-slate-950"></div>
         </div>
-        <div id="history-list" class="space-y-2 max-h-48 overflow-y-auto text-xs pr-1">
-          <p class="text-slate-500 text-center py-3 italic">No drives recorded yet.</p>
+        <div>
+          <h1 class="text-xs font-black tracking-widest text-white leading-tight">PROGRESSIVE</h1>
+          <p class="text-[9px] gold-text font-extrabold tracking-widest uppercase">Driving School LLC</p>
         </div>
       </div>
-
-    </div>
-
-    <!-- TAB 2: PACKAGES & PRICING -->
-    <div id="tab-packages" class="tab-content hidden space-y-4">
-      <div class="glass-card rounded-3xl p-5 space-y-4 shadow-2xl">
-        <div class="border-b border-slate-800/80 pb-3">
-          <h2 class="text-sm font-bold text-white">Our Driving Packages</h2>
-          <p class="text-xs text-slate-400 mt-0.5">Select a course to enroll with Progressive Driving School</p>
-        </div>
-
-        <div class="space-y-3">
-          <!-- Package 1 -->
-          <div class="bg-slate-950/80 p-4 rounded-2xl border border-amber-500/30 relative">
-            <span class="absolute top-3 right-3 text-[9px] font-black uppercase bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full border border-amber-500/30">Most Popular</span>
-            <h3 class="text-xs font-bold text-white">Full Teen Package (50 Hrs)</h3>
-            <p class="text-[11px] text-slate-400 mt-1">Complete classroom & behind-the-wheel training required by Ohio BMV.</p>
-            <div class="mt-3 flex justify-between items-center">
-              <span class="text-xs font-bold gold-text">Contact for Pricing</span>
-              <button onclick="switchTab('register')" class="bg-amber-500 text-slate-950 text-[10px] font-extrabold px-3 py-1.5 rounded-xl">Enroll Now</button>
-            </div>
-          </div>
-
-          <!-- Package 2 -->
-          <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
-            <h3 class="text-xs font-bold text-white">Behind-The-Wheel Lessons</h3>
-            <p class="text-[11px] text-slate-400 mt-1">1-on-1 private driving sessions with licensed state instructors.</p>
-            <div class="mt-3 flex justify-between items-center">
-              <span class="text-xs font-bold text-slate-300">Flexible Hourly Rates</span>
-              <button onclick="switchTab('register')" class="bg-slate-800 text-white text-[10px] font-bold px-3 py-1.5 rounded-xl border border-slate-700">Enroll Now</button>
-            </div>
-          </div>
-
-          <!-- Package 3 -->
-          <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
-            <h3 class="text-xs font-bold text-white">BMV Road Test Prep</h3>
-            <p class="text-[11px] text-slate-400 mt-1">Maneuverability practice & road test simulation to pass on your first try.</p>
-            <div class="mt-3 flex justify-between items-center">
-              <span class="text-xs font-bold text-slate-300">Express Session</span>
-              <button onclick="switchTab('register')" class="bg-slate-800 text-white text-[10px] font-bold px-3 py-1.5 rounded-xl border border-slate-700">Enroll Now</button>
-            </div>
-          </div>
-        </div>
+      <div class="flex gap-2">
+        <a href="https://wa.me/16147344272?text=Hi%20Progressive%20Driving%20School,%20I%20have%20a%20question%20about%20driving%20lessons." class="bg-emerald-600 active:scale-95 transition text-white text-xs p-2.5 rounded-xl font-bold flex items-center justify-center shadow-lg shadow-emerald-600/20 border border-emerald-400/30">
+          <i class="fa-brands fa-whatsapp text-sm"></i>
+        </a>
+        <a href="tel:6147344272" class="gold-gradient active:scale-95 transition text-slate-950 text-xs px-3 py-2 rounded-xl font-black flex items-center gap-1.5 shadow-lg shadow-amber-500/20">
+          <i class="fa-solid fa-phone text-xs"></i>
+          <span>Call</span>
+        </a>
       </div>
-    </div>
+    </header>
 
-    <!-- TAB 3: IN-APP INSCHRIJVEN -->
-    <div id="tab-register" class="tab-content hidden space-y-4">
-      <div class="glass-card rounded-3xl p-5 space-y-4 shadow-2xl">
-        <div class="border-b border-slate-800/80 pb-3">
-          <h2 class="text-sm font-bold text-white">Student Registration</h2>
-          <p class="text-xs text-slate-400 mt-0.5">Enroll directly with Progressive Driving School LLC</p>
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto p-4 space-y-4 pb-32">
+
+      <!-- TAB 1: DRIVING LOGTRACKER -->
+      <div id="tab-dashboard" class="tab-content space-y-4">
+
+        <!-- Ohio BMV Requirement Progress Card -->
+        <div class="glass-card rounded-3xl p-5 shadow-2xl relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <span class="text-[9px] font-black uppercase tracking-widest text-amber-300 bg-amber-950/80 px-2.5 py-1 rounded-full border border-amber-500/40 shadow-inner">Ohio BMV Standard</span>
+              <h2 class="text-sm font-bold text-slate-200 mt-2">50-Hour Driving Goal</h2>
+            </div>
+            <button onclick="exportToPDF()" class="text-[10px] font-bold text-slate-950 gold-gradient px-3 py-1.5 rounded-xl flex items-center gap-1.5 active:scale-95 transition shadow-lg">
+              <i class="fa-solid fa-file-pdf"></i>
+              <span>Export PDF</span>
+            </button>
+          </div>
+
+          <div class="flex justify-between items-end my-4">
+            <div>
+              <span class="text-4xl font-black text-white tracking-tight" id="total-hours-display">0.0</span>
+              <span class="text-xs font-semibold text-slate-400 block mt-0.5">out of 50.0 total hrs</span>
+            </div>
+            <div class="text-right">
+              <span class="text-2xl font-black gold-text" id="percentage-display">0%</span>
+              <span class="text-[10px] font-medium text-slate-400 block">Completed</span>
+            </div>
+          </div>
+          
+          <!-- Dynamic Progress Bar -->
+          <div class="w-full bg-slate-900/90 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-800 shadow-inner mb-4">
+            <div id="progress-bar" class="gold-gradient h-full rounded-full transition-all duration-700 shadow-md" style="width: 0%"></div>
+          </div>
+
+          <!-- Day & Night Breakdown -->
+          <div class="grid grid-cols-2 gap-3 pt-3 border-t border-slate-800/80">
+            <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800">
+              <div class="flex items-center gap-1.5 mb-1">
+                <i class="fa-solid fa-sun text-amber-400 text-xs"></i>
+                <span class="text-xs text-slate-400 font-semibold">Day Drives</span>
+              </div>
+              <span class="text-sm font-bold text-slate-100" id="day-hours-display">0.0 / 40.0 hrs</span>
+            </div>
+            <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800">
+              <div class="flex items-center gap-1.5 mb-1">
+                <i class="fa-solid fa-moon text-indigo-400 text-xs"></i>
+                <span class="text-xs text-slate-400 font-semibold">Night Drives</span>
+              </div>
+              <span class="text-sm font-bold text-indigo-200" id="night-hours-display">0.0 / 10.0 hrs</span>
+            </div>
+          </div>
         </div>
 
-        <form onsubmit="handleRegistration(event)" class="space-y-3.5">
-          <div>
-            <label class="text-xs font-semibold text-slate-300 block mb-1">Full Name</label>
-            <input type="text" id="reg-name" required placeholder="John Doe" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white outline-none focus:border-amber-500 transition">
-          </div>
-
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="text-xs font-semibold text-slate-300 block mb-1">Phone</label>
-              <input type="tel" id="reg-phone" required placeholder="(614) 000-0000" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white outline-none focus:border-amber-500 transition">
-            </div>
-            <div>
-              <label class="text-xs font-semibold text-slate-300 block mb-1">City / Zip</label>
-              <input type="text" id="reg-city" required placeholder="Columbus, OH" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white outline-none focus:border-amber-500 transition">
-            </div>
-          </div>
-
-          <div>
-            <label class="text-xs font-semibold text-slate-300 block mb-1">Service Needed</label>
-            <select id="reg-service" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white outline-none focus:border-amber-500 transition">
-              <option>Full Teen Driving Package (50 Hours)</option>
-              <option>Behind-the-Wheel Driving Lessons</option>
-              <option>BMV Road Test Preparation</option>
-              <option>Adult Driving Classes</option>
+        <!-- Live Driving Timer -->
+        <div class="glass-card rounded-3xl p-5 shadow-2xl text-center relative">
+          <div class="flex justify-between items-center mb-3 px-1">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> Practice Tracker
+            </span>
+            
+            <!-- Selector met Lock-functie bij actieve timer -->
+            <select id="drive-type" class="bg-slate-950 border border-slate-800 text-xs font-semibold text-slate-200 rounded-xl px-2.5 py-1.5 outline-none focus:border-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition">
+              <option value="day">☀️ Day Drive</option>
+              <option value="night">🌙 Night Drive</option>
             </select>
           </div>
 
-          <button type="submit" class="w-full gold-gradient active:scale-98 text-slate-950 font-black py-3.5 px-4 rounded-2xl shadow-xl shadow-amber-500/10 border border-amber-300/30 transition text-xs mt-2 flex items-center justify-center gap-2">
-            <i class="fa-solid fa-paper-plane"></i>
-            <span>Submit Registration</span>
+          <div class="text-4xl font-mono font-black text-white tracking-widest my-4 bg-slate-950/90 py-4 rounded-2xl border border-slate-800 shadow-inner" id="timer-display">00:00:00</div>
+          
+          <button id="btn-timer" onclick="toggleTimer()" class="w-full gold-gradient active:scale-98 text-slate-950 font-black py-3.5 px-4 rounded-2xl shadow-xl shadow-amber-500/10 border border-amber-300/30 transition-all flex items-center justify-center gap-2 text-xs">
+            <i class="fa-solid fa-play"></i>
+            <span>Start Driving Session</span>
           </button>
-        </form>
-      </div>
-    </div>
-
-    <!-- TAB 4: ADMIN DASHBOARD (Pincode: 1234) -->
-    <div id="tab-admin" class="tab-content hidden space-y-4">
-      <div id="admin-login" class="glass-card rounded-3xl p-6 space-y-4 shadow-2xl text-center">
-        <div class="w-12 h-12 bg-amber-500/10 rounded-2xl border border-amber-500/20 flex items-center justify-center mx-auto text-amber-400">
-          <i class="fa-solid fa-user-shield text-xl"></i>
         </div>
-        <div>
-          <h2 class="text-sm font-bold text-white">Instructor Panel</h2>
-          <p class="text-xs text-slate-400 mt-1">Enter your admin PIN to view student records</p>
-        </div>
-        <input type="password" id="admin-pin" placeholder="PIN (Default: 1234)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-center text-sm text-white outline-none focus:border-amber-500">
-        <button onclick="loginAdmin()" class="w-full gold-gradient text-slate-950 font-black py-3 rounded-xl text-xs active:scale-98 transition">Unlock Dashboard</button>
-      </div>
 
-      <div id="admin-panel" class="hidden glass-card rounded-3xl p-5 space-y-4 shadow-2xl">
-        <div class="flex justify-between items-center border-b border-slate-800/80 pb-3">
-          <div>
-            <h2 class="text-sm font-bold text-white">Admin Dashboard</h2>
-            <p class="text-[10px] text-slate-400">Manage Received Registrations</p>
+        <!-- Recent Log History -->
+        <div class="glass-card rounded-3xl p-5 shadow-2xl space-y-3">
+          <div class="flex justify-between items-center border-b border-slate-800/80 pb-2.5">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Drive History</h3>
+            <span class="text-[10px] font-semibold text-slate-400 bg-slate-900 px-2 py-0.5 rounded-full border border-slate-800" id="history-count">0 sessions</span>
           </div>
-          <button onclick="logoutAdmin()" class="text-xs text-red-400 bg-red-950/40 px-2.5 py-1 rounded-xl border border-red-800/40">Logout</button>
+          <div id="history-list" class="space-y-2 max-h-48 overflow-y-auto text-xs pr-1">
+            <p class="text-slate-500 text-center py-3 italic">No drives recorded yet.</p>
+          </div>
         </div>
 
-        <div id="admin-registrations-list" class="space-y-2 text-xs">
-          <p class="text-slate-500 text-center py-3 italic">No pending registrations.</p>
+      </div>
+
+      <!-- TAB 2: PACKAGES & PRICING -->
+      <div id="tab-packages" class="tab-content hidden space-y-4">
+        <div class="glass-card rounded-3xl p-5 space-y-4 shadow-2xl">
+          <div class="border-b border-slate-800/80 pb-3">
+            <h2 class="text-sm font-bold text-white">Our Driving Packages</h2>
+            <p class="text-xs text-slate-400 mt-0.5">Select a course to enroll with Progressive Driving School</p>
+          </div>
+
+          <div class="space-y-3">
+            <div class="bg-slate-950/80 p-4 rounded-2xl border border-amber-500/30 relative">
+              <span class="absolute top-3 right-3 text-[9px] font-black uppercase bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full border border-amber-500/30">Most Popular</span>
+              <h3 class="text-xs font-bold text-white">Online Course & Drive</h3>
+              <p class="text-[11px] text-slate-400 mt-1">Complete online course & 8 hours behind-the-wheel training.</p>
+              <div class="mt-3 flex justify-between items-center">
+                <span class="text-xs font-bold gold-text">$600.00</span>
+                <button onclick="switchTab('register')" class="bg-amber-500 text-slate-950 text-[10px] font-extrabold px-3 py-1.5 rounded-xl">Enroll Now</button>
+              </div>
+            </div>
+
+            <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+              <h3 class="text-xs font-bold text-white">Drive Only (Course Completed)</h3>
+              <p class="text-[11px] text-slate-400 mt-1">8 Hours of behind-the-wheel training for students who finished online course.</p>
+              <div class="mt-3 flex justify-between items-center">
+                <span class="text-xs font-bold text-slate-300">$550.00</span>
+                <button onclick="switchTab('register')" class="bg-slate-800 text-white text-[10px] font-bold px-3 py-1.5 rounded-xl border border-slate-700">Enroll Now</button>
+              </div>
+            </div>
+
+            <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+              <h3 class="text-xs font-bold text-white">Adult 12-Hour Drive Only (21+)</h3>
+              <p class="text-[11px] text-slate-400 mt-1">Comprehensive behind-the-wheel driving instruction for adult learners.</p>
+              <div class="mt-3 flex justify-between items-center">
+                <span class="text-xs font-bold text-slate-300">$800.00</span>
+                <button onclick="switchTab('register')" class="bg-slate-800 text-white text-[10px] font-bold px-3 py-1.5 rounded-xl border border-slate-700">Enroll Now</button>
+              </div>
+            </div>
+
+            <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+              <h3 class="text-xs font-bold text-white">Adult Express (4 Hrs Online & 4 Hrs Drive)</h3>
+              <p class="text-[11px] text-slate-400 mt-1">Condensed course designed for adult license preparation.</p>
+              <div class="mt-3 flex justify-between items-center">
+                <span class="text-xs font-bold text-slate-300">$415.00</span>
+                <button onclick="switchTab('register')" class="bg-slate-800 text-white text-[10px] font-bold px-3 py-1.5 rounded-xl border border-slate-700">Enroll Now</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-  </main>
+      <!-- TAB 3: VOLLEDIG INSCHRIJFFORMULIER (VANUIT HET DOCUMENT) -->
+      <div id="tab-register" class="tab-content hidden space-y-4">
+        <div class="glass-card rounded-3xl p-5 space-y-4 shadow-2xl">
+          <div class="border-b border-slate-800/80 pb-3">
+            <span class="text-[9px] font-black uppercase tracking-widest text-amber-300 bg-amber-950/80 px-2.5 py-0.5 rounded-full border border-amber-500/40">Official BMV Form</span>
+            <h2 class="text-sm font-bold text-white mt-1">Student Enrollment Form</h2>
+            <p class="text-[11px] text-slate-400 mt-0.5">Progressive Driving School LLC • (614) 734-4272</p>
+          </div>
 
-  <!-- Bottom Navigation Bar -->
-  <nav class="glass-nav grid grid-cols-4 text-center py-2.5 fixed bottom-0 left-0 right-0 z-50">
-    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="flex flex-col items-center gap-1 gold-text transition">
-      <i class="fa-solid fa-gauge-high text-base"></i>
-      <span class="text-[9px] font-bold">Logbook</span>
-    </button>
-    <button onclick="switchTab('packages')" id="nav-packages" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition">
-      <i class="fa-solid fa-layer-group text-base"></i>
-      <span class="text-[9px] font-bold">Courses</span>
-    </button>
-    <button onclick="switchTab('register')" id="nav-register" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition">
-      <i class="fa-solid fa-user-plus text-base"></i>
-      <span class="text-[9px] font-bold">Register</span>
-    </button>
-    <button onclick="switchTab('admin')" id="nav-admin" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition">
-      <i class="fa-solid fa-user-shield text-base"></i>
-      <span class="text-[9px] font-bold">Admin</span>
-    </button>
-  </nav>
+          <form onsubmit="handleRegistration(event)" class="space-y-4 text-xs">
+            
+            <!-- Student Information -->
+            <div class="space-y-3">
+              <h3 class="font-bold text-amber-400 uppercase tracking-wider text-[10px]">1. Student Information</h3>
+              
+              <div>
+                <label class="font-semibold text-slate-300 block mb-1">Student Full Name *</label>
+                <input type="text" id="reg-name" required placeholder="First and Last Name" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+              </div>
 
-  <!-- Hidden PDF Container -->
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="font-semibold text-slate-300 block mb-1">Phone Number *</label>
+                  <input type="tel" id="reg-phone" required placeholder="(614) 000-0000" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+                </div>
+                <div>
+                  <label class="font-semibold text-slate-300 block mb-1">Date of Birth *</label>
+                  <input type="date" id="reg-dob" required class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+                </div>
+              </div>
+
+              <div>
+                <label class="font-semibold text-slate-300 block mb-1">Email Address *</label>
+                <input type="email" id="reg-email" required placeholder="example@example.com" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+              </div>
+
+              <div>
+                <label class="font-semibold text-slate-300 block mb-1">Street Address *</label>
+                <input type="text" id="reg-address" required placeholder="2600 Oakstone Dr..." class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+              </div>
+
+              <div class="grid grid-cols-3 gap-2">
+                <div class="col-span-1">
+                  <label class="font-semibold text-slate-300 block mb-1">City *</label>
+                  <input type="text" id="reg-city" required placeholder="Columbus" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-2.5 py-2.5 text-white outline-none focus:border-amber-500">
+                </div>
+                <div>
+                  <label class="font-semibold text-slate-300 block mb-1">State *</label>
+                  <input type="text" id="reg-state" value="OH" required class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-2.5 py-2.5 text-white outline-none focus:border-amber-500">
+                </div>
+                <div>
+                  <label class="font-semibold text-slate-300 block mb-1">Zip *</label>
+                  <input type="text" id="reg-zip" required placeholder="43231" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-2.5 py-2.5 text-white outline-none focus:border-amber-500">
+                </div>
+              </div>
+            </div>
+
+            <!-- Permit Details & Uploads -->
+            <div class="space-y-3 pt-2 border-t border-slate-800/80">
+              <h3 class="font-bold text-amber-400 uppercase tracking-wider text-[10px]">2. Permit & Documentation</h3>
+              
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="font-semibold text-slate-300 block mb-1">Permit Number *</label>
+                  <input type="text" id="reg-permit" required placeholder="OH Perm #" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+                </div>
+                <div>
+                  <label class="font-semibold text-slate-300 block mb-1">Expiration Date *</label>
+                  <input type="date" id="reg-permit-exp" required class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+                </div>
+              </div>
+
+              <div>
+                <label class="font-semibold text-slate-300 block mb-1">Upload Temporary Permit *</label>
+                <input type="file" id="reg-file-permit" accept="image/*,.pdf" class="w-full text-slate-400 text-xs bg-slate-950/80 border border-slate-800 rounded-xl p-2 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-amber-500 file:text-slate-950 file:font-bold">
+              </div>
+
+              <div>
+                <label class="font-semibold text-slate-300 block mb-1">Upload 24h Online Certificate (If completed)</label>
+                <input type="file" id="reg-file-cert" accept="image/*,.pdf" class="w-full text-slate-400 text-xs bg-slate-950/80 border border-slate-800 rounded-xl p-2 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-slate-800 file:text-slate-300 file:font-bold">
+              </div>
+            </div>
+
+            <!-- Package Selection & Payment -->
+            <div class="space-y-3 pt-2 border-t border-slate-800/80">
+              <h3 class="font-bold text-amber-400 uppercase tracking-wider text-[10px]">3. Enrollment Type & Payment</h3>
+              
+              <div>
+                <label class="font-semibold text-slate-300 block mb-1">Enrollment Package *</label>
+                <select id="reg-service" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+                  <option value="Online Course & Drive ($600)">Online Course & Drive - $600</option>
+                  <option value="Drive Only ($550)">Drive Only (Completed Online Course) - $550</option>
+                  <option value="Adult 12 Hour Drive Only ($800)">Adult (21+) 12 Hour Drive Only - $800</option>
+                  <option value="Adult 4h Online & 4h Drive ($415)">Adult Express (4h Online & 4h Drive) - $415</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="font-semibold text-slate-300 block mb-1">Payment Method *</label>
+                <select id="reg-payment" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+                  <option value="Zelle">Zelle (614-734-4272)</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Check/Money Order">Check / Money Order</option>
+                  <option value="Card Terminal">Card Payment Terminal</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Terms & Digital Signature -->
+            <div class="space-y-3 pt-2 border-t border-slate-800/80">
+              <h3 class="font-bold text-amber-400 uppercase tracking-wider text-[10px]">4. School Policies & Signatures</h3>
+              
+              <div class="bg-slate-950/90 p-3 rounded-xl border border-slate-800 max-h-28 overflow-y-auto text-[10px] text-slate-400 leading-relaxed space-y-2">
+                <p><strong>Student Expectations:</strong> Student must be on time and bring physical permit to every drive. Late arrival (15+ mins) or missing permit results in drive cancellation & fee ($20/hr teen, $40/hr adult). Closed-toe shoes required.</p>
+                <p><strong>Pick-Up Policy:</strong> Pick-up/drop-off available only at participating High Schools during regular school hours.</p>
+                <p><strong>Refund Policy:</strong> No refunds shall be issued if Progressive Driving School has attempted in good faith to deliver services.</p>
+              </div>
+
+              <div class="flex items-start gap-2 pt-1">
+                <input type="checkbox" id="reg-agree" required class="mt-0.5 accent-amber-500">
+                <label for="reg-agree" class="text-[11px] text-slate-300">I agree to the Progressive Driving School LLC terms, policies, and Ohio BMV regulations.</label>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 pt-1">
+                <div>
+                  <label class="font-semibold text-slate-300 block mb-1">Parent/Guardian Sig.</label>
+                  <input type="text" id="reg-sig-parent" placeholder="Full Signature" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3 py-2 text-white outline-none text-xs">
+                </div>
+                <div>
+                  <label class="font-semibold text-slate-300 block mb-1">Student Signature *</label>
+                  <input type="text" id="reg-sig-student" required placeholder="Full Signature" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3 py-2 text-white outline-none text-xs">
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="w-full gold-gradient active:scale-98 text-slate-950 font-black py-4 px-4 rounded-2xl shadow-xl shadow-amber-500/10 border border-amber-300/30 transition text-xs mt-3 flex items-center justify-center gap-2">
+              <i class="fa-solid fa-file-contract"></i>
+              <span>Submit Official Enrollment</span>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- TAB 4: ADMIN DASHBOARD -->
+      <div id="tab-admin" class="tab-content hidden space-y-4">
+        <div id="admin-login" class="glass-card rounded-3xl p-6 space-y-4 shadow-2xl text-center">
+          <div class="w-12 h-12 bg-amber-500/10 rounded-2xl border border-amber-500/20 flex items-center justify-center mx-auto text-amber-400">
+            <i class="fa-solid fa-user-shield text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-sm font-bold text-white">Instructor Panel</h2>
+            <p class="text-xs text-slate-400 mt-1">Enter your admin PIN to view student enrollment records</p>
+          </div>
+          <input type="password" id="admin-pin" placeholder="PIN (Default: 1234)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-center text-sm text-white outline-none focus:border-amber-500">
+          <button onclick="loginAdmin()" class="w-full gold-gradient text-slate-950 font-black py-3 rounded-xl text-xs active:scale-98 transition">Unlock Dashboard</button>
+        </div>
+
+        <div id="admin-panel" class="hidden glass-card rounded-3xl p-5 space-y-4 shadow-2xl">
+          <div class="flex justify-between items-center border-b border-slate-800/80 pb-3">
+            <div>
+              <h2 class="text-sm font-bold text-white">Admin Dashboard</h2>
+              <p class="text-[10px] text-slate-400">Manage Received Registrations</p>
+            </div>
+            <button onclick="logoutAdmin()" class="text-xs text-red-400 bg-red-950/40 px-2.5 py-1 rounded-xl border border-red-800/40">Logout</button>
+          </div>
+
+          <div id="admin-registrations-list" class="space-y-3 text-xs">
+            <p class="text-slate-500 text-center py-3 italic">No pending registrations.</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- FLOATING iOS/ANDROID GLASS NAVIGATION BAR -->
+    <nav class="fixed bottom-5 left-4 right-4 z-50 glass-floating-nav rounded-3xl py-3 px-2 grid grid-cols-4 text-center items-center">
+      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="flex flex-col items-center gap-1 gold-text transition">
+        <i class="fa-solid fa-gauge-high text-base"></i>
+        <span class="text-[9px] font-bold">Logbook</span>
+      </button>
+      <button onclick="switchTab('packages')" id="nav-packages" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition">
+        <i class="fa-solid fa-layer-group text-base"></i>
+        <span class="text-[9px] font-bold">Courses</span>
+      </button>
+      <button onclick="switchTab('register')" id="nav-register" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition">
+        <i class="fa-solid fa-file-pen text-base"></i>
+        <span class="text-[9px] font-bold">Register</span>
+      </button>
+      <button onclick="switchTab('admin')" id="nav-admin" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition">
+        <i class="fa-solid fa-user-shield text-base"></i>
+        <span class="text-[9px] font-bold">Admin</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- Hidden Printable PDF Container -->
   <div id="printable-logbook" class="hidden"></div>
 
-  <!-- JavaScript Logic -->
+  <!-- JavaScript App Logic -->
   <script>
+    // Splash Screen Handling
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        splash.style.opacity = '0';
+        setTimeout(() => splash.style.display = 'none', 500);
+      }, 1500);
+    });
+
+    function enterPortal() {
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('app-container').classList.remove('hidden');
+    }
+
+    function enterAsStudent() {
+      switchTab('dashboard');
+      enterPortal();
+    }
+
     let dayHours = parseFloat(localStorage.getItem('pds_day_hours')) || 0;
     let nightHours = parseFloat(localStorage.getItem('pds_night_hours')) || 0;
     let history = JSON.parse(localStorage.getItem('pds_history')) || [];
@@ -371,12 +564,16 @@
     let seconds = 0;
     let isRunning = false;
 
+    // Timer met automatische dropdown-vergrendeling bij een actieve rit
     function toggleTimer() {
       const btn = document.getElementById('btn-timer');
       const display = document.getElementById('timer-display');
+      const driveTypeSelect = document.getElementById('drive-type');
 
       if (!isRunning) {
         isRunning = true;
+        driveTypeSelect.disabled = true; // Blokkeer type-wissel tijdens rit
+
         btn.className = "w-full bg-gradient-to-r from-rose-600 to-red-600 active:scale-98 text-white font-bold py-3.5 px-4 rounded-2xl shadow-xl shadow-rose-600/20 border border-rose-400/20 transition flex items-center justify-center gap-2 text-xs";
         btn.innerHTML = `<i class="fa-solid fa-stop"></i><span>Stop & Save Drive</span>`;
 
@@ -390,9 +587,10 @@
       } else {
         isRunning = false;
         clearInterval(timerInterval);
-        
+        driveTypeSelect.disabled = false; // Ontgrendel type-wissel
+
         const addedHours = Math.max(0.1, parseFloat((seconds / 3600).toFixed(1)));
-        const driveType = document.getElementById('drive-type').value;
+        const driveType = driveTypeSelect.value;
 
         if (driveType === 'day') dayHours += addedHours;
         else nightHours += addedHours;
@@ -422,16 +620,23 @@
       const newReg = {
         name: document.getElementById('reg-name').value,
         phone: document.getElementById('reg-phone').value,
-        city: document.getElementById('reg-city').value,
+        dob: document.getElementById('reg-dob').value,
+        email: document.getElementById('reg-email').value,
+        address: `${document.getElementById('reg-address').value}, ${document.getElementById('reg-city').value}, ${document.getElementById('reg-state').value} ${document.getElementById('reg-zip').value}`,
+        permit: document.getElementById('reg-permit').value,
+        permitExp: document.getElementById('reg-permit-exp').value,
         service: document.getElementById('reg-service').value,
+        payment: document.getElementById('reg-payment').value,
+        sigStudent: document.getElementById('reg-sig-student').value,
         date: new Date().toLocaleDateString()
       };
 
       registrations.push(newReg);
       localStorage.setItem('pds_registrations', JSON.stringify(registrations));
 
-      alert("Registration submitted successfully!");
+      alert("Enrollment submitted successfully!");
       e.target.reset();
+      switchTab('dashboard');
     }
 
     function loginAdmin() {
@@ -459,13 +664,14 @@
       }
 
       list.innerHTML = registrations.map((r) => `
-        <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800/80 space-y-1">
+        <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800/80 space-y-1 text-[11px]">
           <div class="flex justify-between font-bold text-white">
             <span>${r.name}</span>
             <span class="gold-text text-[10px]">${r.date}</span>
           </div>
-          <p class="text-slate-400 text-[11px]"><i class="fa-solid fa-phone text-[9px] mr-1"></i> ${r.phone} | ${r.city}</p>
-          <p class="text-amber-400 text-[10px] font-semibold">${r.service}</p>
+          <p class="text-slate-400"><i class="fa-solid fa-phone text-[9px] mr-1"></i> ${r.phone} | <i class="fa-solid fa-envelope text-[9px] mr-1"></i> ${r.email}</p>
+          <p class="text-slate-400"><i class="fa-solid fa-id-card text-[9px] mr-1"></i> Perm #: ${r.permit} (Exp: ${r.permitExp})</p>
+          <p class="text-amber-400 font-semibold">${r.service} • ${r.payment}</p>
         </div>
       `).join('');
     }
