@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>US DriveTrack</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-900 text-gray-100 flex flex-col h-screen font-sans selection:bg-blue-500">
+
+  <!-- Top Navigation Header -->
+  <header class="bg-gray-800 border-b border-gray-700 px-4 py-3 flex items-center justify-between shadow-md">
+    <div class="flex items-center gap-2">
+      <i class="fa-solid font-bold text-blue-500 text-xl fa-car-side"></i>
+      <h1 class="text-lg font-bold tracking-wide">DriveTrack <span class="text-xs text-blue-400 border border-blue-500/30 px-1.5 py-0.5 rounded">US</span></h1>
+    </div>
+    <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2 py-1 rounded-full font-medium">● System Live</span>
+  </header>
+
+  <!-- Main Content Body -->
+  <main class="flex-1 overflow-y-auto p-4 space-y-4">
+
+    <!-- TAB 1: DASHBOARD / TRACKER -->
+    <div id="tab-dashboard" class="tab-content space-y-4">
+      
+      <!-- Progress Card -->
+      <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 shadow-lg">
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">State Requirement Progress</h2>
+        <div class="flex justify-between items-baseline mb-2">
+          <span class="text-3xl font-extrabold text-white" id="total-hours">12.5 <span class="text-sm font-normal text-gray-400">/ 50 Uur</span></span>
+          <span class="text-sm font-semibold text-blue-400">25% Compleet</span>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="w-full bg-gray-700 h-3 rounded-full overflow-hidden mb-4">
+          <div class="bg-blue-500 h-full rounded-full transition-all duration-500" style="width: 25%"></div>
+        </div>
+
+        <!-- Sub Stats -->
+        <div class="grid grid-cols-2 gap-3 pt-2 border-t border-gray-700/50">
+          <div class="bg-gray-900/50 p-2.5 rounded-xl border border-gray-700/50">
+            <span class="text-xs text-gray-400 block">☀️ Dag uren</span>
+            <span class="text-base font-bold text-gray-200">9.5 / 40 u</span>
+          </div>
+          <div class="bg-gray-900/50 p-2.5 rounded-xl border border-gray-700/50">
+            <span class="text-xs text-gray-400 block">🌙 Nacht uren</span>
+            <span class="text-base font-bold text-indigo-300">3.0 / 10 u</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action: Active Driving Timer -->
+      <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 shadow-lg text-center">
+        <h3 class="text-sm font-medium text-gray-300 mb-2">Huidige Rit Oefenen</h3>
+        <div class="text-4xl font-mono font-bold text-white tracking-wider my-3" id="timer-display">00:00:00</div>
+        
+        <button id="btn-timer" onclick="toggleTimer()" class="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg transition duration-200 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-play"></i>
+          <span>Start Nieuwe Rit</span>
+        </button>
+      </div>
+
+      <!-- Recent Driving Logs -->
+      <div class="bg-gray-800 border border-gray-700 rounded-2xl p-4 shadow-lg space-y-3">
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400">Laatste Ritten</h3>
+        
+        <div class="space-y-2" id="log-list">
+          <div class="flex items-center justify-between p-3 bg-gray-900/60 rounded-xl border border-gray-700/40">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">☀️</div>
+              <div>
+                <p class="text-sm font-semibold text-gray-200">Highway & City Drive</p>
+                <p class="text-xs text-gray-400">Gisteren • California DMV Log</p>
+              </div>
+            </div>
+            <span class="text-sm font-bold text-blue-400">+1.5 u</span>
+          </div>
+
+          <div class="flex items-center justify-between p-3 bg-gray-900/60 rounded-xl border border-gray-700/40">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center">🌙</div>
+              <div>
+                <p class="text-sm font-semibold text-gray-200">Night Parallel Parking</p>
+                <p class="text-xs text-gray-400">3 dagen geleden</p>
+              </div>
+            </div>
+            <span class="text-sm font-bold text-indigo-400">+1.0 u</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 2: SCHEDULE / PLANNER -->
+    <div id="tab-schedule" class="tab-content hidden space-y-4">
+      <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 text-center py-10">
+        <i class="fa-solid fa-calendar-days text-4xl text-blue-400 mb-3"></i>
+        <h3 class="text-lg font-bold text-white mb-1">Rijles Inplannen</h3>
+        <p class="text-xs text-gray-400 mb-4">Hier komt binnenkort de kalender voor afspraken met instructeurs.</p>
+        <button class="bg-gray-700 text-gray-300 text-xs py-2 px-4 rounded-lg cursor-not-allowed" disabled>Binnenkort beschikbaar</button>
+      </div>
+    </div>
+
+    <!-- TAB 3: INSTELLINGEN -->
+    <div id="tab-settings" class="tab-content hidden space-y-4">
+      <div class="bg-gray-800 border border-gray-700 rounded-2xl p-4 space-y-3">
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400">Instellingen</h3>
+        <div class="flex justify-between items-center py-2 border-b border-gray-700/50">
+          <span class="text-sm text-gray-200">Selecteer Staat</span>
+          <span class="text-xs bg-gray-700 text-gray-300 px-2.5 py-1 rounded-md">California (50u)</span>
+        </div>
+        <div class="flex justify-between items-center py-2">
+          <span class="text-sm text-gray-200">Versie</span>
+          <span class="text-xs text-gray-400">v0.1.0 Alpha</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="bg-gray-800 border-t border-gray-700 grid grid-cols-3 text-center py-2.5">
+    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="flex flex-col items-center gap-1 text-blue-400">
+      <i class="fa-solid fa-gauge-high text-lg"></i>
+      <span class="text-[10px] font-medium">Tracker</span>
+    </button>
+    <button onclick="switchTab('schedule')" id="nav-schedule" class="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-200">
+      <i class="fa-solid fa-calendar text-lg"></i>
+      <span class="text-[10px] font-medium">Planning</span>
+    </button>
+    <button onclick="switchTab('settings')" id="nav-settings" class="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-200">
+      <i class="fa-solid fa-sliders text-lg"></i>
+      <span class="text-[10px] font-medium">Opties</span>
+    </button>
+  </nav>
+
+  <!-- Simpele App Logica in JavaScript -->
+  <script>
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+      document.getElementById('tab-' + tabName).classList.remove('hidden');
+
+      ['dashboard', 'schedule', 'settings'].forEach(t => {
+        const btn = document.getElementById('nav-' + t);
+        if (t === tabName) {
+          btn.className = "flex flex-col items-center gap-1 text-blue-400";
+        } else {
+          btn.className = "flex flex-col items-center gap-1 text-gray-400 hover:text-gray-200";
+        }
+      });
+    }
+
+    let timerInterval = null;
+    let seconds = 0;
+    let isRunning = false;
+
+    function toggleTimer() {
+      const btn = document.getElementById('btn-timer');
+      const display = document.getElementById('timer-display');
+
+      if (!isRunning) {
+        isRunning = true;
+        btn.className = "w-full bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg transition duration-200 flex items-center justify-center gap-2";
+        btn.innerHTML = `<i class="fa-solid fa-stop"></i><span>Stop & Opslaan</span>`;
+
+        timerInterval = setInterval(() => {
+          seconds++;
+          let hrs = Math.floor(seconds / 3600);
+          let mins = Math.floor((seconds % 3600) / 60);
+          let secs = seconds % 60;
+          display.textContent = 
+            `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }, 1000);
+      } else {
+        isRunning = false;
+        clearInterval(timerInterval);
+        btn.className = "w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg transition duration-200 flex items-center justify-center gap-2";
+        btn.innerHTML = `<i class="fa-solid fa-play"></i><span>Start Nieuwe Rit</span>`;
+        alert(`Rit van ${Math.max(1, Math.round(seconds/60))} minuten opgeslagen!`);
+        seconds = 0;
+        display.textContent = "00:00:00";
+      }
+    }
+  </script>
+</body>
+</html>
