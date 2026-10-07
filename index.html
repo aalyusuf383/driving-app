@@ -1,744 +1,804 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Progressive Driving School - Student Enrollment</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #0b0f19;
-            --card-bg: rgba(22, 28, 45, 0.85);
-            --text-color: #f3f4f6;
-            --text-muted: #9ca3af;
-            --input-bg: #111827;
-            --border-color: #1f2937;
-            --accent-gold: #f59e0b;
-            --accent-blue: #3b82f6;
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --nav-bg: rgba(15, 23, 42, 0.75);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Progressive Driving School LLC</title>
+  
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a0f1d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Progressive DS">
+  <link rel="apple-touch-icon" href="Picture.PNG">
 
-        [data-theme="light"] {
-            --bg-color: #f3f4f6;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --text-color: #111827;
-            --text-muted: #4b5563;
-            --input-bg: #ffffff;
-            --border-color: #e5e7eb;
-            --accent-gold: #d97706;
-            --accent-blue: #2563eb;
-            --glass-bg: rgba(255, 255, 255, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.4);
-            --nav-bg: rgba(255, 255, 255, 0.75);
-        }
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    body { 
+      -webkit-tap-highlight-color: transparent; 
+      background-color: #0a0f1d;
+    }
+    
+    /* Header Safe Area padding voor iOS Notch / Dynamic Island */
+    .safe-top-header {
+      padding-top: max(env(safe-area-inset-top), 28px);
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+    /* Floating iOS Floating Glass Bar Effect */
+    .glass-floating-nav {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      padding-bottom: max(env(safe-area-inset-bottom), 12px);
+    }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            padding-bottom: 100px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+    
+    .glass-nav {
+      background: rgba(10, 15, 29, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .gold-gradient {
+      background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
+    }
+    
+    .gold-text {
+      background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 50%, #aa771c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        /* Compact Header Fix */
-        .app-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px 8px 16px;
-            background: var(--bg-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+    /* Fix voor Datumveld text-overflow op iOS */
+    input[type="date"] {
+      appearance: none;
+      -webkit-appearance: none;
+      min-height: 42px;
+      font-size: 11px;
+    }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    /* Canvas styling voor handtekening */
+    .sig-canvas {
+      touch-action: none;
+      background: #050811;
+      border: 1px dashed rgba(212, 175, 55, 0.4);
+      border-radius: 12px;
+      cursor: crosshair;
+    }
 
-        .brand-logo {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: #fff;
-            padding: 2px;
-        }
+    #splash-screen {
+      transition: opacity 0.5s ease-out, visibility 0.5s;
+    }
 
-        .brand-title {
-            font-size: 13px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: var(--text-color);
-            line-height: 1.1;
-        }
-
-        .brand-subtitle {
-            font-size: 10px;
-            color: var(--accent-gold);
-            font-weight: 600;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .btn-icon {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--text-color);
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 0 16px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            backdrop-filter: blur(15px);
-            margin-bottom: 20px;
-        }
-
-        .badge-bmv {
-            display: inline-block;
-            background: rgba(245, 158, 11, 0.15);
-            color: var(--accent-gold);
-            border: 1px solid var(--accent-gold);
-            font-size: 10px;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 12px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-        .subtitle { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
-
-        .section-title {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--accent-gold);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 20px 0 12px 0;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .form-group {
-            margin-bottom: 14px;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 10px;
-        }
-
-        .form-row .form-group {
-            flex: 1;
-        }
-
-        label {
-            display: block;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="date"],
-        select {
-            width: 100%;
-            padding: 12px;
-            background: var(--input-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            color: var(--text-color);
-            font-size: 13px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        input:focus, select:focus {
-            border-color: var(--accent-gold);
-        }
-
-        .file-upload-box {
-            border: 2px dashed var(--border-color);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            background: var(--input-bg);
-            cursor: pointer;
-        }
-
-        .file-upload-box i {
-            font-size: 20px;
-            color: var(--accent-gold);
-            margin-bottom: 5px;
-        }
-
-        .file-upload-box span {
-            display: block;
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        .radio-group, .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .option-card {
-            background: var(--input-bg);
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        .option-card input {
-            accent-color: var(--accent-gold);
-        }
-
-        /* Signature Canvas Styling */
-        .signature-pad-container {
-            position: relative;
-            background: #ffffff;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-            touch-action: none;
-        }
-
-        canvas {
-            width: 100%;
-            height: 120px;
-            display: block;
-            cursor: crosshair;
-        }
-
-        .clear-btn {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(0,0,0,0.1);
-            border: none;
-            color: #333;
-            padding: 4px 8px;
-            font-size: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .policy-box {
-            background: var(--input-bg);
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 11px;
-            color: var(--text-muted);
-            max-height: 150px;
-            overflow-y: auto;
-            line-height: 1.4;
-            margin-bottom: 12px;
-        }
-
-        .btn-submit {
-            width: 100%;
-            background: var(--accent-gold);
-            color: #000;
-            font-weight: 700;
-            padding: 14px;
-            border-radius: 12px;
-            border: none;
-            font-size: 14px;
-            cursor: pointer;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
-        }
-
-        /* Settings Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: var(--card-bg);
-            width: 90%;
-            max-width: 400px;
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid var(--glass-border);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .theme-options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        /* iOS Glass Floating Navigation Bar with Swipe Gesture */
-        .ios-nav-wrapper {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 32px);
-            max-width: 420px;
-            z-index: 999;
-        }
-
-        .ios-nav {
-            position: relative;
-            background: var(--nav-bg);
-            backdrop-filter: blur(25px) saturate(180%);
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            padding: 6px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            touch-action: none;
-            user-select: none;
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            padding: 8px 0;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 10px;
-            font-weight: 500;
-            position: relative;
-            z-index: 2;
-            transition: color 0.2s ease;
-        }
-
-        .nav-item i {
-            font-size: 18px;
-        }
-
-        .nav-item.active {
-            color: var(--accent-gold);
-        }
-
-        /* Fluid Sliding Pillar Indicator */
-        .nav-indicator {
-            position: absolute;
-            top: 6px;
-            bottom: 6px;
-            left: 6px;
-            width: calc(33.333% - 4px);
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 24px;
-            z-index: 1;
-            transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-    </style>
+    @media print {
+      body * { visibility: hidden; }
+      #printable-logbook, #printable-logbook * { visibility: visible; }
+      #printable-logbook { position: absolute; left: 0; top: 0; width: 100%; color: black; background: white; padding: 20px; }
+    }
+  </style>
 </head>
-<body>
+<body class="bg-slate-950 text-slate-100 flex flex-col h-screen font-sans selection:bg-amber-500 overflow-hidden">
 
-    <!-- Header Section -->
-    <header class="app-header">
-        <div class="brand">
-            <div class="brand-logo">
-                <i class="fa-solid fa-car-side" style="color:#000; font-size:20px; margin: 8px 0 0 7px;"></i>
-            </div>
-            <div>
-                <div class="brand-title">PROGRESSIVE</div>
-                <div class="brand-subtitle">STUDENT PORTAL</div>
-            </div>
+  <!-- 1. SPLASH SCREEN -->
+  <div id="splash-screen" class="fixed inset-0 bg-slate-950 z-[100] flex flex-col items-center justify-center p-6 text-center">
+    <div class="relative mb-6">
+      <img src="Picture.PNG" class="w-28 h-28 rounded-3xl object-cover border-2 border-amber-500/50 shadow-2xl shadow-amber-500/20 animate-pulse" alt="App Logo">
+    </div>
+    <h1 class="text-xl font-black tracking-widest text-white leading-tight">PROGRESSIVE</h1>
+    <p class="text-xs gold-text font-extrabold tracking-widest uppercase mt-1">Driving School LLC</p>
+  </div>
+
+  <!-- 2. LOGIN / PORTAL SCHERM -->
+  <div id="login-screen" class="fixed inset-0 bg-slate-950 z-[90] flex items-center justify-center p-4">
+    <div class="glass-card rounded-3xl p-6 w-full max-w-sm space-y-5 text-center shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+      
+      <img src="IMG_0711.jpeg" class="w-16 h-16 rounded-2xl object-cover mx-auto border border-amber-500/40 shadow-lg" alt="Logo">
+      
+      <div>
+        <h2 class="text-base font-bold text-white">Welcome to Progressive DS</h2>
+        <p class="text-xs text-slate-400 mt-1">Select your access portal to continue</p>
+      </div>
+
+      <div class="space-y-3 pt-2">
+        <button onclick="enterAsStudent()" class="w-full gold-gradient text-slate-950 font-black py-3.5 px-4 rounded-2xl shadow-xl active:scale-98 transition text-xs flex items-center justify-center gap-2">
+          <i class="fa-solid fa-user-graduate text-sm"></i>
+          <span>Student Portal & Logbook</span>
+        </button>
+
+        <button onclick="switchTab('register'); enterPortal();" class="w-full bg-slate-900 border border-amber-500/40 text-amber-300 font-bold py-3.5 px-4 rounded-2xl active:scale-98 transition text-xs flex items-center justify-center gap-2">
+          <i class="fa-solid fa-file-pen text-sm"></i>
+          <span>New Student Enrollment Form</span>
+        </button>
+
+        <button onclick="switchTab('admin'); enterPortal();" class="w-full bg-slate-900/60 border border-slate-800 text-slate-400 font-semibold py-3 px-4 rounded-2xl active:scale-98 transition text-xs flex items-center justify-center gap-2">
+          <i class="fa-solid fa-user-shield text-xs"></i>
+          <span>Instructor / Admin Portal</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP CONTAINER -->
+  <div id="app-container" class="flex flex-col h-full w-full hidden">
+
+    <!-- Top Brand Header aangepast voor Dynamic Island -->
+    <header class="glass-nav px-4 pb-3 safe-top-header flex items-center justify-between sticky top-0 z-40">
+      <div class="flex items-center gap-3">
+        <div class="relative">
+          <img src="IMG_0711.jpeg" class="w-10 h-10 rounded-xl object-cover border border-amber-500/40 shadow-lg shadow-amber-500/10" alt="Logo">
+          <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-slate-950"></div>
         </div>
-        <div class="header-actions">
-            <button class="btn-icon" onclick="openSettings()"><i class="fa-solid fa-gear"></i> Settings</button>
+        <div>
+          <h1 class="text-xs font-black tracking-widest text-white leading-tight">PROGRESSIVE</h1>
+          <p class="text-[9px] gold-text font-extrabold tracking-widest uppercase">Driving School LLC</p>
         </div>
+      </div>
+      <div class="flex gap-2">
+        <a href="https://wa.me/16147344272?text=Hi%20Progressive%20Driving%20School,%20I%20have%20a%20question%20about%20driving%20lessons." class="bg-emerald-600 active:scale-95 transition text-white text-xs p-2.5 rounded-xl font-bold flex items-center justify-center shadow-lg shadow-emerald-600/20 border border-emerald-400/30">
+          <i class="fa-brands fa-whatsapp text-sm"></i>
+        </a>
+        <a href="tel:6147344272" class="gold-gradient active:scale-95 transition text-slate-950 text-xs px-3 py-2 rounded-xl font-black flex items-center gap-1.5 shadow-lg shadow-amber-500/20">
+          <i class="fa-solid fa-phone text-xs"></i>
+          <span>Call</span>
+        </a>
+      </div>
     </header>
 
-    <main class="container">
-        <div class="card">
-            <span class="badge-bmv">OFFICIAL BMV FORM</span>
-            <h1>Student Enrollment Form</h1>
-            <p class="subtitle">Progressive Driving School LLC • (614) 734-4272</p>
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto p-4 space-y-4 pb-36">
 
-            <form id="enrollmentForm" onsubmit="handleFormSubmit(event)">
-                
-                <!-- 1. STUDENT INFORMATION -->
-                <div class="section-title"><i class="fa-solid fa-user"></i> 1. Student Information</div>
-                
-                <div class="form-group">
-                    <label>Student Full Name *</label>
-                    <input type="text" placeholder="First and Last Name" required>
-                </div>
+      <!-- TAB 1: DRIVING LOGTRACKER -->
+      <div id="tab-dashboard" class="tab-content space-y-4">
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Phone Number *</label>
-                        <input type="tel" placeholder="(614) 000-0000" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Date of Birth *</label>
-                        <input type="date" required>
-                    </div>
-                </div>
+        <div class="glass-card rounded-3xl p-5 shadow-2xl relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <span class="text-[9px] font-black uppercase tracking-widest text-amber-300 bg-amber-950/80 px-2.5 py-1 rounded-full border border-amber-500/40 shadow-inner">Ohio BMV Standard</span>
+              <h2 class="text-sm font-bold text-slate-200 mt-2">50-Hour Driving Goal</h2>
+            </div>
+            <button onclick="exportToPDF()" class="text-[10px] font-bold text-slate-950 gold-gradient px-3 py-1.5 rounded-xl flex items-center gap-1.5 active:scale-95 transition shadow-lg">
+              <i class="fa-solid fa-file-pdf"></i>
+              <span>Export PDF</span>
+            </button>
+          </div>
 
-                <div class="form-group">
-                    <label>Email Address *</label>
-                    <input type="email" placeholder="example@example.com" required>
-                </div>
+          <div class="flex justify-between items-end my-4">
+            <div>
+              <span class="text-4xl font-black text-white tracking-tight" id="total-hours-display">0.0</span>
+              <span class="text-xs font-semibold text-slate-400 block mt-0.5">out of 50.0 total hrs</span>
+            </div>
+            <div class="text-right">
+              <span class="text-2xl font-black gold-text" id="percentage-display">0%</span>
+              <span class="text-[10px] font-medium text-slate-400 block">Completed</span>
+            </div>
+          </div>
+          
+          <div class="w-full bg-slate-900/90 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-800 shadow-inner mb-4">
+            <div id="progress-bar" class="gold-gradient h-full rounded-full transition-all duration-700 shadow-md" style="width: 0%"></div>
+          </div>
 
-                <div class="form-group">
-                    <label>Street Address *</label>
-                    <input type="text" placeholder="2600 Oakstone Dr..." required>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>City *</label>
-                        <input type="text" value="Columbus" required>
-                    </div>
-                    <div class="form-group">
-                        <label>State *</label>
-                        <input type="text" value="OH" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Zip *</label>
-                        <input type="text" value="43231" required>
-                    </div>
-                </div>
-
-                <!-- 2. PERMIT & DOCUMENTATION -->
-                <div class="section-title"><i class="fa-solid fa-id-card"></i> 2. Permit & Documentation</div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Permit Number *</label>
-                        <input type="text" placeholder="OH Perm #" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Expiration Date *</label>
-                        <input type="date" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Upload Temporary Permit *</label>
-                    <div class="file-upload-box" onclick="document.getElementById('permitFile').click()">
-                        <i class="fa-solid fa-cloud-arrow-up"></i>
-                        <span>Browse Files / Choose a file</span>
-                        <input type="file" id="permitFile" style="display:none;" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Upload Driver's Ed 24-Hour Certificate (Optional)</label>
-                    <div class="file-upload-box" onclick="document.getElementById('certFile').click()">
-                        <i class="fa-solid fa-file-certificate"></i>
-                        <span>Upload copy if already completed</span>
-                        <input type="file" id="certFile" style="display:none;">
-                    </div>
-                </div>
-
-                <!-- 3. ENROLLMENT TYPE & PAYMENT -->
-                <div class="section-title"><i class="fa-solid fa-graduation-cap"></i> 3. Enrollment Type & Payment</div>
-
-                <div class="form-group">
-                    <label>Enrollment Type *</label>
-                    <div class="radio-group">
-                        <label class="option-card">
-                            <input type="radio" name="enrollment_type" required>
-                            Drive Only (Already completed online course) - $550
-                        </label>
-                        <label class="option-card">
-                            <input type="radio" name="enrollment_type">
-                            Online Course & Drive - $600
-                        </label>
-                        <label class="option-card">
-                            <input type="radio" name="enrollment_type">
-                            Adult (21+ years) 12-Hour Drive Only - $800
-                        </label>
-                        <label class="option-card">
-                            <input type="radio" name="enrollment_type">
-                            4 Hours Online & 4 Hours Drive (Adults) - $415
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Payment Method *</label>
-                    <div class="radio-group">
-                        <label class="option-card"><input type="radio" name="payment_method" required> Cash</label>
-                        <label class="option-card"><input type="radio" name="payment_method"> Zelle (614) 734-4272</label>
-                        <label class="option-card"><input type="radio" name="payment_method"> Check / Money Order</label>
-                        <label class="option-card"><input type="radio" name="payment_method"> Card Payment Terminal</label>
-                    </div>
-                </div>
-
-                <!-- 4. POLICIES & EXPECTATIONS -->
-                <div class="section-title"><i class="fa-solid fa-file-contract"></i> 4. School Policies</div>
-                <div class="policy-box">
-                    <strong>Student Expectations:</strong> Must be on time and bring physical permit to every drive. Late arrivals (>15 mins) or no-shows incur a cancellation fee ($20/hr teens, $40/hr adults). Closed-toe shoes required. Audio/video recording devices are installed in vehicles for safety and quality assurance.
-                </div>
-
-                <!-- 5. SIGNATURES -->
-                <div class="section-title"><i class="fa-solid fa-signature"></i> 5. Signatures</div>
-
-                <!-- Parent Signature -->
-                <div class="form-group">
-                    <label>Parent or Guardian Signature *</label>
-                    <div class="signature-pad-container">
-                        <canvas id="parentSigCanvas"></canvas>
-                        <button type="button" class="clear-btn" onclick="clearCanvas('parentSigCanvas')">Clear</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Parent or Guardian Date *</label>
-                    <input type="date" required>
-                </div>
-
-                <!-- Student Signature -->
-                <div class="form-group">
-                    <label>Student Signature *</label>
-                    <div class="signature-pad-container">
-                        <canvas id="studentSigCanvas"></canvas>
-                        <button type="button" class="clear-btn" onclick="clearCanvas('studentSigCanvas')">Clear</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Student Date *</label>
-                    <input type="date" required>
-                </div>
-
-                <button type="submit" class="btn-submit">Complete Registration</button>
-            </form>
+          <div class="grid grid-cols-2 gap-3 pt-3 border-t border-slate-800/80">
+            <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800">
+              <div class="flex items-center gap-1.5 mb-1">
+                <i class="fa-solid fa-sun text-amber-400 text-xs"></i>
+                <span class="text-xs text-slate-400 font-semibold">Day Drives</span>
+              </div>
+              <span class="text-sm font-bold text-slate-100" id="day-hours-display">0.0 / 40.0 hrs</span>
+            </div>
+            <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800">
+              <div class="flex items-center gap-1.5 mb-1">
+                <i class="fa-solid fa-moon text-indigo-400 text-xs"></i>
+                <span class="text-xs text-slate-400 font-semibold">Night Drives</span>
+              </div>
+              <span class="text-sm font-bold text-indigo-200" id="night-hours-display">0.0 / 10.0 hrs</span>
+            </div>
+          </div>
         </div>
+
+        <div class="glass-card rounded-3xl p-5 shadow-2xl text-center relative">
+          <div class="flex justify-between items-center mb-3 px-1">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> Practice Tracker
+            </span>
+            
+            <select id="drive-type" class="bg-slate-950 border border-slate-800 text-xs font-semibold text-slate-200 rounded-xl px-2.5 py-1.5 outline-none focus:border-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition">
+              <option value="day">☀️ Day Drive</option>
+              <option value="night">🌙 Night Drive</option>
+            </select>
+          </div>
+
+          <div class="text-4xl font-mono font-black text-white tracking-widest my-4 bg-slate-950/90 py-4 rounded-2xl border border-slate-800 shadow-inner" id="timer-display">00:00:00</div>
+          
+          <button id="btn-timer" onclick="toggleTimer()" class="w-full gold-gradient active:scale-98 text-slate-950 font-black py-3.5 px-4 rounded-2xl shadow-xl shadow-amber-500/10 border border-amber-300/30 transition-all flex items-center justify-center gap-2 text-xs">
+            <i class="fa-solid fa-play"></i>
+            <span>Start Driving Session</span>
+          </button>
+        </div>
+
+        <div class="glass-card rounded-3xl p-5 shadow-2xl space-y-3">
+          <div class="flex justify-between items-center border-b border-slate-800/80 pb-2.5">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Drive History</h3>
+            <span class="text-[10px] font-semibold text-slate-400 bg-slate-900 px-2 py-0.5 rounded-full border border-slate-800" id="history-count">0 sessions</span>
+          </div>
+          <div id="history-list" class="space-y-2 max-h-48 overflow-y-auto text-xs pr-1">
+            <p class="text-slate-500 text-center py-3 italic">No drives recorded yet.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB 2: PACKAGES -->
+      <div id="tab-packages" class="tab-content hidden space-y-4">
+        <div class="glass-card rounded-3xl p-5 space-y-4 shadow-2xl">
+          <div class="border-b border-slate-800/80 pb-3">
+            <h2 class="text-sm font-bold text-white">Our Driving Packages</h2>
+            <p class="text-xs text-slate-400 mt-0.5">Select a course to enroll with Progressive Driving School</p>
+          </div>
+
+          <div class="space-y-3">
+            <div class="bg-slate-950/80 p-4 rounded-2xl border border-amber-500/30 relative">
+              <span class="absolute top-3 right-3 text-[9px] font-black uppercase bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full border border-amber-500/30">Most Popular</span>
+              <h3 class="text-xs font-bold text-white">Online Course & Drive</h3>
+              <p class="text-[11px] text-slate-400 mt-1">Complete online course & 8 hours behind-the-wheel training.</p>
+              <div class="mt-3 flex justify-between items-center">
+                <span class="text-xs font-bold gold-text">$600.00</span>
+                <button onclick="switchTab('register')" class="bg-amber-500 text-slate-950 text-[10px] font-extrabold px-3 py-1.5 rounded-xl">Enroll Now</button>
+              </div>
+            </div>
+
+            <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+              <h3 class="text-xs font-bold text-white">Drive Only (Course Completed)</h3>
+              <p class="text-[11px] text-slate-400 mt-1">8 Hours of behind-the-wheel training for students who finished online course.</p>
+              <div class="mt-3 flex justify-between items-center">
+                <span class="text-xs font-bold text-slate-300">$550.00</span>
+                <button onclick="switchTab('register')" class="bg-slate-800 text-white text-[10px] font-bold px-3 py-1.5 rounded-xl border border-slate-700">Enroll Now</button>
+              </div>
+            </div>
+
+            <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+              <h3 class="text-xs font-bold text-white">Adult 12-Hour Drive Only (21+)</h3>
+              <p class="text-[11px] text-slate-400 mt-1">Comprehensive behind-the-wheel driving instruction for adult learners.</p>
+              <div class="mt-3 flex justify-between items-center">
+                <span class="text-xs font-bold text-slate-300">$800.00</span>
+                <button onclick="switchTab('register')" class="bg-slate-800 text-white text-[10px] font-bold px-3 py-1.5 rounded-xl border border-slate-700">Enroll Now</button>
+              </div>
+            </div>
+
+            <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+              <h3 class="text-xs font-bold text-white">Adult Express (4 Hrs Online & 4 Hrs Drive)</h3>
+              <p class="text-[11px] text-slate-400 mt-1">Condensed course designed for adult license preparation.</p>
+              <div class="mt-3 flex justify-between items-center">
+                <span class="text-xs font-bold text-slate-300">$415.00</span>
+                <button onclick="switchTab('register')" class="bg-slate-800 text-white text-[10px] font-bold px-3 py-1.5 rounded-xl border border-slate-700">Enroll Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: VOLLEDIG INSCHRIJFFORMULIER MET CANVAS SIGNATURE & FIXED DATE INPUTS -->
+      <div id="tab-register" class="tab-content hidden space-y-4">
+        <div class="glass-card rounded-3xl p-5 space-y-4 shadow-2xl">
+          <div class="border-b border-slate-800/80 pb-3">
+            <span class="text-[9px] font-black uppercase tracking-widest text-amber-300 bg-amber-950/80 px-2.5 py-0.5 rounded-full border border-amber-500/40">Official BMV Form</span>
+            <h2 class="text-sm font-bold text-white mt-1">Student Enrollment Form</h2>
+            <p class="text-[11px] text-slate-400 mt-0.5">Progressive Driving School LLC • (614) 734-4272</p>
+          </div>
+
+          <form onsubmit="handleRegistration(event)" class="space-y-4 text-xs">
+            
+            <!-- Student Information -->
+            <div class="space-y-3">
+              <h3 class="font-bold text-amber-400 uppercase tracking-wider text-[10px]">1. Student Information</h3>
+              
+              <div>
+                <label class="font-semibold text-slate-300 block mb-1">Student Full Name *</label>
+                <input type="text" id="reg-name" required placeholder="First and Last Name" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+              </div>
+
+              <!-- Grid met min-w-0 fix voor datum input op iOS -->
+              <div class="grid grid-cols-2 gap-2.5">
+                <div class="min-w-0">
+                  <label class="font-semibold text-slate-300 block mb-1 truncate">Phone Number *</label>
+                  <input type="tel" id="reg-phone" required placeholder="(614) 000-0000" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3 py-2.5 text-white outline-none focus:border-amber-500 text-xs">
+                </div>
+                <div class="min-w-0">
+                  <label class="font-semibold text-slate-300 block mb-1 truncate">Date of Birth *</label>
+                  <input type="date" id="reg-dob" required class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-2 py-2 text-white outline-none focus:border-amber-500 text-xs">
+                </div>
+              </div>
+
+              <div>
+                <label class="font-semibold text-slate-300 block mb-1">Email Address *</label>
+                <input type="email" id="reg-email" required placeholder="example@example.com" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+              </div>
+
+              <div>
+                <label class="font-semibold text-slate-300 block mb-1">Street Address *</label>
+                <input type="text" id="reg-address" required placeholder="2600 Oakstone Dr..." class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+              </div>
+
+              <div class="grid grid-cols-3 gap-2">
+                <div class="col-span-1 min-w-0">
+                  <label class="font-semibold text-slate-300 block mb-1">City *</label>
+                  <input type="text" id="reg-city" required placeholder="Columbus" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-2.5 py-2.5 text-white outline-none focus:border-amber-500">
+                </div>
+                <div class="min-w-0">
+                  <label class="font-semibold text-slate-300 block mb-1">State *</label>
+                  <input type="text" id="reg-state" value="OH" required class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-2.5 py-2.5 text-white outline-none focus:border-amber-500">
+                </div>
+                <div class="min-w-0">
+                  <label class="font-semibold text-slate-300 block mb-1">Zip *</label>
+                  <input type="text" id="reg-zip" required placeholder="43231" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-2.5 py-2.5 text-white outline-none focus:border-amber-500">
+                </div>
+              </div>
+            </div>
+
+            <!-- Permit Details & File Uploads -->
+            <div class="space-y-3 pt-2 border-t border-slate-800/80">
+              <h3 class="font-bold text-amber-400 uppercase tracking-wider text-[10px]">2. Permit & Documentation</h3>
+              
+              <div class="grid grid-cols-2 gap-2.5">
+                <div class="min-w-0">
+                  <label class="font-semibold text-slate-300 block mb-1 truncate">Permit Number *</label>
+                  <input type="text" id="reg-permit" required placeholder="OH Perm #" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3 py-2.5 text-white outline-none focus:border-amber-500 text-xs">
+                </div>
+                <div class="min-w-0">
+                  <label class="font-semibold text-slate-300 block mb-1 truncate">Expiration Date *</label>
+                  <input type="date" id="reg-permit-exp" required class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-2 py-2 text-white outline-none focus:border-amber-500 text-xs">
+                </div>
+              </div>
+
+              <div>
+                <label class="font-semibold text-slate-300 block mb-1">Upload Temporary Permit *</label>
+                <p class="text-[10px] text-slate-400 mb-1.5">Upload a photo/PDF of your physical state driving permit.</p>
+                <input type="file" id="reg-file-permit" accept="image/*,.pdf" class="w-full text-slate-400 text-xs bg-slate-950/80 border border-slate-800 rounded-xl p-2 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-amber-500 file:text-slate-950 file:font-bold">
+              </div>
+
+              <div>
+                <label class="font-semibold text-slate-300 block mb-1">Upload 24h Online Certificate (If completed)</label>
+                <p class="text-[10px] text-slate-400 mb-1.5">Upload proof of completion if you took online driver ed elsewhere.</p>
+                <input type="file" id="reg-file-cert" accept="image/*,.pdf" class="w-full text-slate-400 text-xs bg-slate-950/80 border border-slate-800 rounded-xl p-2 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-slate-800 file:text-slate-300 file:font-bold">
+              </div>
+            </div>
+
+            <!-- Package Selection & Payment -->
+            <div class="space-y-3 pt-2 border-t border-slate-800/80">
+              <h3 class="font-bold text-amber-400 uppercase tracking-wider text-[10px]">3. Enrollment Type & Payment</h3>
+              
+              <div>
+                <label class="font-semibold text-slate-300 block mb-1">Enrollment Package *</label>
+                <select id="reg-service" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+                  <option value="Online Course & Drive ($600)">Online Course & Drive - $600</option>
+                  <option value="Drive Only ($550)">Drive Only (Completed Online Course) - $550</option>
+                  <option value="Adult 12 Hour Drive Only ($800)">Adult (21+) 12 Hour Drive Only - $800</option>
+                  <option value="Adult 4h Online & 4h Drive ($415)">Adult Express (4h Online & 4h Drive) - $415</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="font-semibold text-slate-300 block mb-1">Payment Method *</label>
+                <select id="reg-payment" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+                  <option value="Zelle">Zelle (614-734-4272)</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Check/Money Order">Check / Money Order</option>
+                  <option value="Card Terminal">Card Payment Terminal</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Terms & INTERACTIEVE CANVAS HANDTEKENING (Tekenen met vinger) -->
+            <div class="space-y-3 pt-2 border-t border-slate-800/80">
+              <h3 class="font-bold text-amber-400 uppercase tracking-wider text-[10px]">4. School Policies & Signatures</h3>
+              
+              <div class="bg-slate-950/90 p-3 rounded-xl border border-slate-800 max-h-28 overflow-y-auto text-[10px] text-slate-400 leading-relaxed space-y-2">
+                <p><strong>Student Expectations:</strong> Student must be on time and bring physical permit to every drive. Late arrival (15+ mins) or missing permit results in drive cancellation & fee ($20/hr teen, $40/hr adult). Closed-toe shoes required.</p>
+                <p><strong>Pick-Up Policy:</strong> Pick-up/drop-off available only at participating High Schools during regular school hours.</p>
+                <p><strong>Refund Policy:</strong> No refunds shall be issued if Progressive Driving School has attempted in good faith to deliver services.</p>
+              </div>
+
+              <div class="flex items-start gap-2 pt-1">
+                <input type="checkbox" id="reg-agree" required class="mt-0.5 accent-amber-500">
+                <label for="reg-agree" class="text-[11px] text-slate-300">I agree to the Progressive Driving School LLC terms, policies, and Ohio BMV regulations.</label>
+              </div>
+
+              <!-- Signature Canvas Boxes -->
+              <div class="space-y-3 pt-2">
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <label class="font-semibold text-slate-300">Parent / Guardian Signature</label>
+                    <button type="button" id="clear-parent-sig" class="text-[10px] text-amber-400 hover:text-amber-300 font-bold"><i class="fa-solid fa-eraser"></i> Clear</button>
+                  </div>
+                  <canvas id="canvas-parent-sig" class="sig-canvas w-full h-24"></canvas>
+                </div>
+
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <label class="font-semibold text-slate-300">Student Signature *</label>
+                    <button type="button" id="clear-student-sig" class="text-[10px] text-amber-400 hover:text-amber-300 font-bold"><i class="fa-solid fa-eraser"></i> Clear</button>
+                  </div>
+                  <canvas id="canvas-student-sig" class="sig-canvas w-full h-24"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="w-full gold-gradient active:scale-98 text-slate-950 font-black py-4 px-4 rounded-2xl shadow-xl shadow-amber-500/10 border border-amber-300/30 transition text-xs mt-3 flex items-center justify-center gap-2">
+              <i class="fa-solid fa-file-contract"></i>
+              <span>Submit Official Enrollment</span>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- TAB 4: ADMIN DASHBOARD -->
+      <div id="tab-admin" class="tab-content hidden space-y-4">
+        <div id="admin-login" class="glass-card rounded-3xl p-6 space-y-4 shadow-2xl text-center">
+          <div class="w-12 h-12 bg-amber-500/10 rounded-2xl border border-amber-500/20 flex items-center justify-center mx-auto text-amber-400">
+            <i class="fa-solid fa-user-shield text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-sm font-bold text-white">Instructor Panel</h2>
+            <p class="text-xs text-slate-400 mt-1">Enter your admin PIN to view student enrollment records</p>
+          </div>
+          <input type="password" id="admin-pin" placeholder="PIN (Default: 1234)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-center text-sm text-white outline-none focus:border-amber-500">
+          <button onclick="loginAdmin()" class="w-full gold-gradient text-slate-950 font-black py-3 rounded-xl text-xs active:scale-98 transition">Unlock Dashboard</button>
+        </div>
+
+        <div id="admin-panel" class="hidden glass-card rounded-3xl p-5 space-y-4 shadow-2xl">
+          <div class="flex justify-between items-center border-b border-slate-800/80 pb-3">
+            <div>
+              <h2 class="text-sm font-bold text-white">Admin Dashboard</h2>
+              <p class="text-[10px] text-slate-400">Manage Received Registrations</p>
+            </div>
+            <button onclick="logoutAdmin()" class="text-xs text-red-400 bg-red-950/40 px-2.5 py-1 rounded-xl border border-red-800/40">Logout</button>
+          </div>
+
+          <div id="admin-registrations-list" class="space-y-3 text-xs">
+            <p class="text-slate-500 text-center py-3 italic">No pending registrations.</p>
+          </div>
+        </div>
+      </div>
+
     </main>
 
-    <!-- Settings Modal -->
-    <div id="settingsModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>App Settings</h3>
-                <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeSettings()"></i>
-            </div>
-            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Choose your preferred theme display mode:</p>
-            <div class="theme-options">
-                <label class="option-card">
-                    <input type="radio" name="theme_select" value="light" onclick="setTheme('light')"> Light Mode
-                </label>
-                <label class="option-card">
-                    <input type="radio" name="theme_select" value="dark" onclick="setTheme('dark')"> Dark Mode
-                </label>
-                <label class="option-card">
-                    <input type="radio" name="theme_select" value="system" onclick="setTheme('system')"> System Default
-                </label>
-            </div>
+    <!-- FLOATING iOS/ANDROID GLASS NAVIGATION BAR -->
+    <nav class="fixed bottom-3 left-4 right-4 z-50 glass-floating-nav rounded-3xl py-2.5 px-2 grid grid-cols-4 text-center items-center">
+      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="flex flex-col items-center gap-1 gold-text transition">
+        <i class="fa-solid fa-gauge-high text-base"></i>
+        <span class="text-[9px] font-bold">Logbook</span>
+      </button>
+      <button onclick="switchTab('packages')" id="nav-packages" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition">
+        <i class="fa-solid fa-layer-group text-base"></i>
+        <span class="text-[9px] font-bold">Courses</span>
+      </button>
+      <button onclick="switchTab('register')" id="nav-register" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition">
+        <i class="fa-solid fa-file-pen text-base"></i>
+        <span class="text-[9px] font-bold">Register</span>
+      </button>
+      <button onclick="switchTab('admin')" id="nav-admin" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition">
+        <i class="fa-solid fa-user-shield text-base"></i>
+        <span class="text-[9px] font-bold">Admin</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <div id="printable-logbook" class="hidden"></div>
+
+  <script>
+    // Splash Screen Handling
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        splash.style.opacity = '0';
+        setTimeout(() => splash.style.display = 'none', 500);
+      }, 1500);
+
+      // Initialiseer Signature Canvassen
+      setupSignatureCanvas('canvas-parent-sig', 'clear-parent-sig');
+      setupSignatureCanvas('canvas-student-sig', 'clear-student-sig');
+    });
+
+    function enterPortal() {
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('app-container').classList.remove('hidden');
+    }
+
+    function enterAsStudent() {
+      switchTab('dashboard');
+      enterPortal();
+    }
+
+    let dayHours = parseFloat(localStorage.getItem('pds_day_hours')) || 0;
+    let nightHours = parseFloat(localStorage.getItem('pds_night_hours')) || 0;
+    let history = JSON.parse(localStorage.getItem('pds_history')) || [];
+    let registrations = JSON.parse(localStorage.getItem('pds_registrations')) || [];
+
+    function updateUI() {
+      const total = dayHours + nightHours;
+      document.getElementById('total-hours-display').textContent = total.toFixed(1);
+      document.getElementById('day-hours-display').textContent = `${dayHours.toFixed(1)} / 40.0 hrs`;
+      document.getElementById('night-hours-display').textContent = `${nightHours.toFixed(1)} / 10.0 hrs`;
+      
+      const pct = Math.min(100, Math.round((total / 50) * 100));
+      document.getElementById('percentage-display').textContent = `${pct}%`;
+      document.getElementById('progress-bar').style.width = `${pct}%`;
+
+      renderHistory();
+    }
+
+    function renderHistory() {
+      const list = document.getElementById('history-list');
+      document.getElementById('history-count').textContent = `${history.length} session(s)`;
+
+      if (history.length === 0) {
+        list.innerHTML = `<p class="text-slate-500 text-center py-3 italic">No drives recorded yet.</p>`;
+        return;
+      }
+
+      list.innerHTML = history.slice().reverse().map((item, index) => `
+        <div class="bg-slate-950/80 p-3 rounded-2xl border border-slate-800/80 flex justify-between items-center">
+          <div>
+            <p class="font-bold text-white text-[11px]">${item.type === 'day' ? '☀️ Day Drive' : '🌙 Night Drive'} - ${item.hours} hrs</p>
+            <p class="text-[9px] text-slate-400">${item.date}</p>
+          </div>
+          <button onclick="deleteSession(${history.length - 1 - index})" class="text-slate-500 hover:text-red-400 text-xs p-1.5"><i class="fa-solid fa-trash-can"></i></button>
         </div>
-    </div>
+      `).join('');
+    }
 
-    <!-- Liquid Glass Smooth Navigation Bar -->
-    <div class="ios-nav-wrapper">
-        <nav class="ios-nav" id="iosNav">
-            <div class="nav-indicator" id="navIndicator"></div>
-            <a href="#logbook" class="nav-item" onclick="setActiveNav(0)">
-                <i class="fa-solid fa-gauge-simple-high"></i>
-                <span>Logbook</span>
-            </a>
-            <a href="#courses" class="nav-item" onclick="setActiveNav(1)">
-                <i class="fa-solid fa-layer-group"></i>
-                <span>Courses</span>
-            </a>
-            <a href="#register" class="nav-item active" onclick="setActiveNav(2)">
-                <i class="fa-solid fa-file-pen"></i>
-                <span>Register</span>
-            </a>
-        </nav>
-    </div>
+    function deleteSession(index) {
+      const item = history[index];
+      if (item.type === 'day') dayHours = Math.max(0, dayHours - item.hours);
+      else nightHours = Math.max(0, nightHours - item.hours);
 
-    <script>
-        // --- Signature Canvas Implementation ---
-        function setupCanvas(canvasId) {
-            const canvas = document.getElementById(canvasId);
-            const ctx = canvas.getContext('2d');
-            let isDrawing = false;
+      history.splice(index, 1);
+      localStorage.setItem('pds_day_hours', dayHours);
+      localStorage.setItem('pds_night_hours', nightHours);
+      localStorage.setItem('pds_history', JSON.stringify(history));
+      updateUI();
+    }
 
-            function resize() {
-                const rect = canvas.getBoundingClientRect();
-                canvas.width = rect.width;
-                canvas.height = rect.height;
-            }
-            resize();
+    updateUI();
 
-            function getPos(e) {
-                const rect = canvas.getBoundingClientRect();
-                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                return { x: clientX - rect.left, y: clientY - rect.top };
-            }
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+      document.getElementById('tab-' + tabName).classList.remove('hidden');
 
-            function start(e) {
-                isDrawing = true;
-                const pos = getPos(e);
-                ctx.beginPath();
-                ctx.moveTo(pos.x, pos.y);
-            }
-
-            function draw(e) {
-                if (!isDrawing) return;
-                const pos = getPos(e);
-                ctx.lineWidth = 2;
-                ctx.lineCap = 'round';
-                ctx.strokeStyle = '#000000';
-                ctx.lineTo(pos.x, pos.y);
-                ctx.stroke();
-            }
-
-            function stop() { isDrawing = false; }
-
-            canvas.addEventListener('mousedown', start);
-            canvas.addEventListener('mousemove', draw);
-            canvas.addEventListener('mouseup', stop);
-
-            canvas.addEventListener('touchstart', start, { passive: true });
-            canvas.addEventListener('touchmove', draw, { passive: true });
-            canvas.addEventListener('touchend', stop);
+      ['dashboard', 'packages', 'register', 'admin'].forEach(t => {
+        const btn = document.getElementById('nav-' + t);
+        if (t === tabName) {
+          btn.className = "flex flex-col items-center gap-1 gold-text transition";
+        } else {
+          btn.className = "flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition";
         }
+      });
+    }
 
-        function clearCanvas(canvasId) {
-            const canvas = document.getElementById(canvasId);
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
+    let timerInterval = null;
+    let seconds = 0;
+    let isRunning = false;
 
-        // --- Theme Switcher Logic ---
-        function setTheme(mode) {
-            if (mode === 'system') {
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-            } else {
-                document.documentElement.setAttribute('data-theme', mode);
-            }
-            localStorage.setItem('preferred_theme', mode);
-        }
+    function toggleTimer() {
+      const btn = document.getElementById('btn-timer');
+      const display = document.getElementById('timer-display');
+      const driveTypeSelect = document.getElementById('drive-type');
 
-        function openSettings() { document.getElementById('settingsModal').style.display = 'flex'; }
-        function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
+      if (!isRunning) {
+        isRunning = true;
+        driveTypeSelect.disabled = true;
 
-        // --- Navigation Drag/Swipe & Smooth Indicator ---
-        let currentNavIndex = 2;
-        const navContainer = document.getElementById('iosNav');
-        const indicator = document.getElementById('navIndicator');
+        btn.className = "w-full bg-gradient-to-r from-rose-600 to-red-600 active:scale-98 text-white font-bold py-3.5 px-4 rounded-2xl shadow-xl shadow-rose-600/20 border border-rose-400/20 transition flex items-center justify-center gap-2 text-xs";
+        btn.innerHTML = `<i class="fa-solid fa-stop"></i><span>Stop & Save Drive</span>`;
 
-        function setActiveNav(index) {
-            currentNavIndex = index;
-            indicator.style.transform = `translateX(${index * 100}%)`;
-            document.querySelectorAll('.nav-item').forEach((item, idx) => {
-                item.classList.toggle('active', idx === index);
-            });
-        }
+        timerInterval = setInterval(() => {
+          seconds++;
+          let hrs = Math.floor(seconds / 3600);
+          let mins = Math.floor((seconds % 3600) / 60);
+          let secs = seconds % 60;
+          display.textContent = `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }, 1000);
+      } else {
+        isRunning = false;
+        clearInterval(timerInterval);
+        driveTypeSelect.disabled = false;
 
-        // Drag/Swipe Gesture Control for Navigation Bar
-        let startX = 0;
-        let isDragging = false;
+        const addedHours = Math.max(0.1, parseFloat((seconds / 3600).toFixed(1)));
+        const driveType = driveTypeSelect.value;
 
-        navContainer.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-            isDragging = true;
-        }, { passive: true });
+        if (driveType === 'day') dayHours += addedHours;
+        else nightHours += addedHours;
 
-        navContainer.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            const currentX = e.touches[0].clientX;
-            const diffX = currentX - startX;
-            const width = navContainer.offsetWidth / 3;
-
-            if (diffX > 40 && currentNavIndex < 2) {
-                setActiveNav(currentNavIndex + 1);
-                isDragging = false;
-            } else if (diffX < -40 && currentNavIndex > 0) {
-                setActiveNav(currentNavIndex - 1);
-                isDragging = false;
-            }
-        }, { passive: true });
-
-        navContainer.addEventListener('touchend', () => { isDragging = false; });
-
-        // Initialize Page Settings
-        window.addEventListener('DOMContentLoaded', () => {
-            setupCanvas('parentSigCanvas');
-            setupCanvas('studentSigCanvas');
-            setActiveNav(2);
-
-            const savedTheme = localStorage.getItem('preferred_theme') || 'dark';
-            const themeRadio = document.querySelector(`input[name="theme_select"][value="${savedTheme}"]`);
-            if (themeRadio) themeRadio.checked = true;
-            setTheme(savedTheme);
+        history.push({
+          type: driveType,
+          hours: addedHours,
+          date: new Date().toLocaleString()
         });
 
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            alert("Enrollment form submitted successfully!");
-        }
-    </script>
+        localStorage.setItem('pds_day_hours', dayHours);
+        localStorage.setItem('pds_night_hours', nightHours);
+        localStorage.setItem('pds_history', JSON.stringify(history));
+
+        updateUI();
+
+        btn.className = "w-full gold-gradient active:scale-98 text-slate-950 font-black py-3.5 px-4 rounded-2xl shadow-xl shadow-amber-500/10 border border-amber-300/30 transition flex items-center justify-center gap-2 text-xs";
+        btn.innerHTML = `<i class="fa-solid fa-play"></i><span>Start Driving Session</span>`;
+        
+        seconds = 0;
+        display.textContent = "00:00:00";
+      }
+    }
+
+    // Interactive Signature Canvas Logic
+    function setupSignatureCanvas(canvasId, clearBtnId) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let drawing = false;
+
+      function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+        ctx.strokeStyle = '#fcf6ba';
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+      }
+
+      setTimeout(resizeCanvas, 300);
+
+      function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return { x: clientX - rect.left, y: clientY - rect.top };
+      }
+
+      function startDraw(e) {
+        drawing = true;
+        const pos = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+        e.preventDefault();
+      }
+
+      function moveDraw(e) {
+        if (!drawing) return;
+        const pos = getPos(e);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+        e.preventDefault();
+      }
+
+      function stopDraw() { drawing = false; }
+
+      canvas.addEventListener('mousedown', startDraw);
+      canvas.addEventListener('mousemove', moveDraw);
+      window.addEventListener('mouseup', stopDraw);
+
+      canvas.addEventListener('touchstart', startDraw, {passive: false});
+      canvas.addEventListener('touchmove', moveDraw, {passive: false});
+      canvas.addEventListener('touchend', stopDraw);
+
+      document.getElementById(clearBtnId).addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+    }
+
+    function handleRegistration(e) {
+      e.preventDefault();
+
+      const newReg = {
+        name: document.getElementById('reg-name').value,
+        phone: document.getElementById('reg-phone').value,
+        dob: document.getElementById('reg-dob').value,
+        email: document.getElementById('reg-email').value,
+        address: `${document.getElementById('reg-address').value}, ${document.getElementById('reg-city').value}, ${document.getElementById('reg-state').value} ${document.getElementById('reg-zip').value}`,
+        permit: document.getElementById('reg-permit').value,
+        permitExp: document.getElementById('reg-permit-exp').value,
+        service: document.getElementById('reg-service').value,
+        payment: document.getElementById('reg-payment').value,
+        studentSig: document.getElementById('canvas-student-sig').toDataURL(),
+        date: new Date().toLocaleDateString()
+      };
+
+      registrations.push(newReg);
+      localStorage.setItem('pds_registrations', JSON.stringify(registrations));
+
+      alert("Enrollment submitted successfully!");
+      e.target.reset();
+      switchTab('dashboard');
+    }
+
+    function loginAdmin() {
+      const pin = document.getElementById('admin-pin').value;
+      if (pin === '1234') {
+        document.getElementById('admin-login').classList.add('hidden');
+        document.getElementById('admin-panel').classList.remove('hidden');
+        renderAdminRegistrations();
+      } else {
+        alert("Incorrect PIN!");
+      }
+    }
+
+    function logoutAdmin() {
+      document.getElementById('admin-login').classList.remove('hidden');
+      document.getElementById('admin-panel').classList.add('hidden');
+      document.getElementById('admin-pin').value = '';
+    }
+
+    function renderAdminRegistrations() {
+      const list = document.getElementById('admin-registrations-list');
+      if (registrations.length === 0) {
+        list.innerHTML = `<p class="text-slate-500 text-center py-3 italic">No pending registrations.</p>`;
+        return;
+      }
+
+      list.innerHTML = registrations.map((r) => `
+        <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800/80 space-y-1.5 text-[11px]">
+          <div class="flex justify-between font-bold text-white">
+            <span>${r.name}</span>
+            <span class="gold-text text-[10px]">${r.date}</span>
+          </div>
+          <p class="text-slate-400"><i class="fa-solid fa-phone text-[9px] mr-1"></i> ${r.phone} | <i class="fa-solid fa-envelope text-[9px] mr-1"></i> ${r.email}</p>
+          <p class="text-slate-400"><i class="fa-solid fa-id-card text-[9px] mr-1"></i> Perm #: ${r.permit} (Exp: ${r.permitExp})</p>
+          <p class="text-amber-400 font-semibold">${r.service} • ${r.payment}</p>
+          ${r.studentSig ? `<div class="mt-1"><p class="text-[9px] text-slate-500">Student Signature:</p><img src="${r.studentSig}" class="h-10 border border-slate-800 rounded bg-black p-1"/></div>` : ''}
+        </div>
+      `).join('');
+    }
+
+    function exportToPDF() {
+      const printable = document.getElementById('printable-logbook');
+      printable.innerHTML = `
+        <div style="font-family: Arial, sans-serif; padding: 20px;">
+          <h1 style="margin-bottom: 2px;">Progressive Driving School LLC</h1>
+          <p style="margin-top: 0; color: #555;">Official Ohio BMV 50-Hour Driving Log Sheet</p>
+          <hr/>
+          <h3>Summary Overview:</h3>
+          <p><strong>Total Hours Completed:</strong> ${(dayHours + nightHours).toFixed(1)} / 50.0 hrs</p>
+          <p><strong>Day Driving:</strong> ${dayHours.toFixed(1)} / 40.0 hrs</p>
+          <p><strong>Night Driving:</strong> ${nightHours.toFixed(1)} / 40.0 hrs</p>
+          <p><strong>Night Driving:</strong> ${nightHours.toFixed(1)} / 10.0 hrs</p>
+          <hr/>
+          <h3>Drive History Log:</h3>
+          <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+            <thead>
+              <tr style="background-color: #f2f2f2;">
+                <th>Date & Time</th>
+                <th>Type</th>
+                <th>Hours</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${history.map(h => `
+                <tr>
+                  <td>${h.date}</td>
+                  <td>${h.type === 'day' ? 'Day' : 'Night'}</td>
+                  <td>${h.hours} hrs</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+      window.print();
+    }
+  </script>
 </body>
 </html>
