@@ -3,8 +3,8 @@
   "short_name": "Progressive DS",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#090d16",
-  "theme_color": "#090d16",
+  "background_color": "#0a0f1d",
+  "theme_color": "#0a0f1d",
   "icons": [
     {
       "src": "IMG_0711.jpeg",
@@ -14,4 +14,3 @@
     }
   ]
 }
-
