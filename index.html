@@ -6,176 +6,167 @@
   <title>Progressive Driving School LLC</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              blue: '#1b365d',
-              lightBlue: '#2563eb',
-              accent: '#3b82f6'
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <style>
+    body { -webkit-tap-highlight-color: transparent; }
+  </style>
 </head>
 <body class="bg-slate-950 text-slate-100 flex flex-col h-screen font-sans selection:bg-blue-600">
 
   <!-- Top Brand Header -->
-  <header class="bg-slate-900 border-b border-slate-800 px-4 py-3 flex items-center justify-between shadow-md">
+  <header class="bg-slate-900/90 backdrop-blur border-b border-slate-800 px-4 py-3 flex items-center justify-between sticky top-0 z-50">
     <div class="flex items-center gap-3">
-      <div class="w-9 h-9 rounded-xl bg-blue-900/60 border border-blue-500/30 flex items-center justify-center font-black text-blue-400 text-lg">
-        P
-      </div>
+      <!-- Pakt hier jouw geüploade foto IMG_0697.jpeg -->
+      <img src="IMG_0697.jpeg" class="w-11 h-11 rounded-xl object-cover border border-blue-500/40 shadow-md" alt="Logo">
       <div>
-        <h1 class="text-sm font-bold tracking-wide text-white leading-tight">PROGRESSIVE</h1>
-        <p class="text-[10px] text-blue-400 font-semibold tracking-wider">DRIVING SCHOOL • COLUMBUS, OH</p>
+        <h1 class="text-xs font-black tracking-wider text-white leading-tight">PROGRESSIVE</h1>
+        <p class="text-[9px] text-blue-400 font-bold tracking-widest">DRIVING SCHOOL LLC</p>
       </div>
     </div>
-    <a href="tel:6147344272" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded-lg font-medium flex items-center gap-1.5 shadow">
-      <i class="fa-solid fa-phone text-[10px]"></i>
-      <span>Call</span>
+    <a href="tel:6147344272" class="bg-blue-600 active:bg-blue-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-blue-600/20">
+      <i class="fa-solid fa-phone text-xs"></i>
+      <span>Call Us</span>
     </a>
   </header>
 
-  <!-- Main Content Body -->
-  <main class="flex-1 overflow-y-auto p-4 space-y-4">
+  <!-- Main Content Area -->
+  <main class="flex-1 overflow-y-auto p-4 space-y-4 pb-24">
 
-    <!-- TAB 1: LOGBOOK / TRACKER -->
+    <!-- TAB 1: DRIVING LOGTRACKER -->
     <div id="tab-dashboard" class="tab-content space-y-4">
 
       <!-- Ohio BMV Requirement Progress Card -->
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
-        <div class="flex justify-between items-start mb-2">
+      <div class="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden">
+        <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-blue-600/10 rounded-full blur-xl pointer-events-none"></div>
+        
+        <div class="flex justify-between items-start mb-3">
           <div>
-            <span class="text-[10px] font-bold uppercase tracking-wider text-blue-400 bg-blue-950 px-2 py-0.5 rounded border border-blue-800">Ohio BMV Standard</span>
-            <h2 class="text-xs font-semibold text-slate-400 mt-1">50-Hour Practice Log</h2>
+            <span class="text-[10px] font-extrabold uppercase tracking-widest text-blue-400 bg-blue-950/80 px-2.5 py-1 rounded-full border border-blue-800/80">Ohio BMV Standard</span>
+            <h2 class="text-xs font-semibold text-slate-400 mt-2">50-Hour Driving Log</h2>
           </div>
-          <span class="text-xs font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2 py-1 rounded-full">● Active Student</span>
+          <span class="text-[10px] font-bold text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-2.5 py-1 rounded-full">Student Mode</span>
         </div>
 
         <div class="flex justify-between items-baseline my-3">
-          <span class="text-3xl font-extrabold text-white" id="total-hours">14.5 <span class="text-sm font-normal text-slate-400">/ 50 Hours</span></span>
-          <span class="text-sm font-bold text-blue-400">29% Complete</span>
+          <span class="text-3xl font-black text-white tracking-tight" id="total-hours-display">0.0 <span class="text-sm font-normal text-slate-400">/ 50.0 hrs</span></span>
+          <span class="text-sm font-bold text-blue-400" id="percentage-display">0%</span>
         </div>
         
-        <!-- Progress Bar -->
-        <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden mb-4">
-          <div class="bg-blue-500 h-full rounded-full transition-all duration-500" style="width: 29%"></div>
+        <!-- Dynamic Progress Bar -->
+        <div class="w-full bg-slate-800 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-700/50 mb-4">
+          <div id="progress-bar" class="bg-blue-500 h-full rounded-full transition-all duration-500 shadow-sm" style="width: 0%"></div>
         </div>
 
-        <!-- Sub Stats for Ohio Requirements -->
-        <div class="grid grid-cols-2 gap-3 pt-3 border-t border-slate-800">
-          <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
-            <span class="text-xs text-slate-400 block mb-0.5">☀️ Day Hours</span>
-            <span class="text-sm font-bold text-slate-200">11.5 / 40 hrs</span>
+        <!-- Day & Night Breakdown -->
+        <div class="grid grid-cols-2 gap-3 pt-3 border-t border-slate-800/80">
+          <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
+            <div class="flex items-center gap-1.5 mb-1">
+              <i class="fa-solid fa-sun text-amber-400 text-xs"></i>
+              <span class="text-xs text-slate-400 font-medium">Day Drive</span>
+            </div>
+            <span class="text-sm font-bold text-slate-100" id="day-hours-display">0.0 / 40.0 hrs</span>
           </div>
-          <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
-            <span class="text-xs text-slate-400 block mb-0.5">🌙 Night Hours</span>
-            <span class="text-sm font-bold text-indigo-300">3.0 / 10 hrs</span>
+          <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
+            <div class="flex items-center gap-1.5 mb-1">
+              <i class="fa-solid fa-moon text-indigo-400 text-xs"></i>
+              <span class="text-xs text-slate-400 font-medium">Night Drive</span>
+            </div>
+            <span class="text-sm font-bold text-indigo-200" id="night-hours-display">0.0 / 10.0 hrs</span>
           </div>
         </div>
       </div>
 
-      <!-- Quick Action: Active Driving Timer -->
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg text-center">
-        <h3 class="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">Live Driving Session</h3>
-        <div class="text-4xl font-mono font-bold text-white tracking-wider my-3" id="timer-display">00:00:00</div>
+      <!-- Live Driving Timer -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl text-center">
+        <div class="flex justify-between items-center mb-2 px-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Live Practice Session</span>
+          <select id="drive-type" class="bg-slate-950 border border-slate-700 text-xs text-slate-200 rounded-lg px-2 py-1 outline-none">
+            <option value="day">☀️ Day Drive</option>
+            <option value="night">🌙 Night Drive</option>
+          </select>
+        </div>
+
+        <div class="text-4xl font-mono font-black text-white tracking-widest my-4 bg-slate-950/80 py-3 rounded-xl border border-slate-800" id="timer-display">00:00:00</div>
         
-        <button id="btn-timer" onclick="toggleTimer()" class="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2">
-          <i class="fa-solid fa-play text-sm"></i>
+        <button id="btn-timer" onclick="toggleTimer()" class="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-blue-600/25 transition flex items-center justify-center gap-2 text-sm">
+          <i class="fa-solid fa-play"></i>
           <span>Start Driving Session</span>
         </button>
       </div>
 
-      <!-- Slogan / Promotion Banner -->
-      <div class="bg-gradient-to-r from-blue-900/40 to-slate-900 border border-blue-500/20 rounded-2xl p-4 text-center">
-        <p class="text-xs text-blue-300 font-semibold italic">"Learn Today • Drive Tomorrow • Succeed for Life"</p>
-      </div>
-
-      <!-- Recent Driving Logs -->
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg space-y-3">
-        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Recent Logged Drives</h3>
-        
-        <div class="space-y-2">
-          <div class="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800">
-            <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center text-sm">☀️</div>
-              <div>
-                <p class="text-sm font-semibold text-slate-200">Columbus City & Highway</p>
-                <p class="text-xs text-slate-400">Yesterday • Verified Drive</p>
-              </div>
-            </div>
-            <span class="text-sm font-bold text-blue-400">+1.5 hrs</span>
-          </div>
-
-          <div class="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800">
-            <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-sm">🌙</div>
-              <div>
-                <p class="text-sm font-semibold text-slate-200">Night Maneuverability</p>
-                <p class="text-xs text-slate-400">3 days ago • Verified Drive</p>
-              </div>
-            </div>
-            <span class="text-sm font-bold text-indigo-400">+1.0 hrs</span>
-          </div>
-        </div>
+      <!-- Official School Slogan Banner -->
+      <div class="bg-gradient-to-r from-blue-950/60 to-slate-900 border border-blue-500/20 rounded-2xl p-4 text-center">
+        <p class="text-xs text-blue-300 font-bold italic">"Learn Today • Drive Tomorrow • Succeed for Life"</p>
+        <p class="text-[10px] text-slate-400 mt-1">Columbus, Ohio • Call (614) 734-4272</p>
       </div>
 
     </div>
 
-    <!-- TAB 2: REGISTER / INSCHRIJVEN -->
+    <!-- TAB 2: IN-APP INSCHRIJVEN -->
     <div id="tab-register" class="tab-content hidden space-y-4">
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 text-center space-y-4">
-        <div class="w-12 h-12 bg-blue-600/10 text-blue-400 rounded-2xl flex items-center justify-center mx-auto text-xl border border-blue-500/20">
-          <i class="fa-solid fa-id-card"></i>
-        </div>
-        <div>
-          <h2 class="text-lg font-bold text-white">Student Registration</h2>
-          <p class="text-xs text-slate-400 mt-1">Register for driving classes with Progressive Driving School LLC in Columbus, OH.</p>
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-xl">
+        <div class="border-b border-slate-800 pb-3">
+          <h2 class="text-base font-bold text-white">Student Registration</h2>
+          <p class="text-xs text-slate-400 mt-0.5">Register directly with Progressive Driving School LLC</p>
         </div>
 
-        <a href="https://form.jotform.com/262005642367050" target="_blank" class="block w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg transition">
-          <i class="fa-solid fa-file-pen mr-2"></i>Open Registration Form
-        </a>
+        <form onsubmit="handleRegistration(event)" class="space-y-3">
+          <div>
+            <label class="text-xs font-semibold text-slate-300 block mb-1">Full Name</label>
+            <input type="text" required placeholder="John Doe" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-blue-500">
+          </div>
 
-        <div class="pt-4 border-t border-slate-800 text-left space-y-2">
-          <h4 class="text-xs font-semibold text-slate-300">Why Choose Progressive Driving School?</h4>
-          <ul class="text-xs text-slate-400 space-y-1.5 list-disc pl-4">
-            <li>Certified Driving Instructors in Columbus, OH</li>
-            <li>Flexible Behind-the-Wheel Scheduling</li>
-            <li>Complete 50-Hour BMV Requirement Preparation</li>
-          </ul>
-        </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs font-semibold text-slate-300 block mb-1">Phone</label>
+              <input type="tel" required placeholder="(614) 000-0000" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-blue-500">
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-slate-300 block mb-1">City / Zip</label>
+              <input type="text" required placeholder="Columbus, OH" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-blue-500">
+            </div>
+          </div>
+
+          <div>
+            <label class="text-xs font-semibold text-slate-300 block mb-1">Service Needed</label>
+            <select class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-blue-500">
+              <option>Full Teen Driving Package (50 Hours)</option>
+              <option>Behind-the-Wheel Driving Lessons</option>
+              <option>BMV Road Test Preparation</option>
+              <option>Adult Driving Classes</option>
+            </select>
+          </div>
+
+          <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-emerald-600/20 transition text-xs mt-2 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>Submit Registration</span>
+          </button>
+        </form>
       </div>
     </div>
 
-    <!-- TAB 3: CONTACT & INFO -->
+    <!-- TAB 3: CONTACT & LOCATIE -->
     <div id="tab-contact" class="tab-content hidden space-y-4">
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-        <h3 class="text-sm font-bold text-white border-b border-slate-800 pb-2">School Contact Details</h3>
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-xl">
+        <h3 class="text-sm font-bold text-white border-b border-slate-800 pb-2">Progressive Driving School Info</h3>
         
         <div class="space-y-3">
-          <a href="tel:6147344272" class="flex items-center gap-3 p-3 bg-slate-950 rounded-xl border border-slate-800 hover:border-blue-500/50 transition">
-            <div class="w-9 h-9 rounded-lg bg-blue-600/10 text-blue-400 flex items-center justify-center">
+          <a href="tel:6147344272" class="flex items-center gap-3 p-3.5 bg-slate-950 rounded-xl border border-slate-800 hover:border-blue-500/50 transition">
+            <div class="w-10 h-10 rounded-xl bg-blue-600/10 text-blue-400 flex items-center justify-center text-lg border border-blue-500/20">
               <i class="fa-solid fa-phone"></i>
             </div>
             <div>
-              <p class="text-xs text-slate-400">Phone Number</p>
-              <p class="text-sm font-bold text-white">(614) 734-4272</p>
+              <p class="text-[10px] text-slate-400 uppercase font-bold">Direct Phone Line</p>
+              <p class="text-sm font-black text-white">(614) 734-4272</p>
             </div>
           </a>
 
-          <div class="flex items-center gap-3 p-3 bg-slate-950 rounded-xl border border-slate-800">
-            <div class="w-9 h-9 rounded-lg bg-blue-600/10 text-blue-400 flex items-center justify-center">
+          <div class="flex items-center gap-3 p-3.5 bg-slate-950 rounded-xl border border-slate-800">
+            <div class="w-10 h-10 rounded-xl bg-blue-600/10 text-blue-400 flex items-center justify-center text-lg border border-blue-500/20">
               <i class="fa-solid fa-location-dot"></i>
             </div>
             <div>
-              <p class="text-xs text-slate-400">Location</p>
-              <p class="text-sm font-bold text-white">Columbus, Ohio</p>
+              <p class="text-[10px] text-slate-400 uppercase font-bold">Service Area</p>
+              <p class="text-sm font-bold text-white">Columbus, Ohio & Surrounding Areas</p>
             </div>
           </div>
         </div>
@@ -185,23 +176,39 @@
   </main>
 
   <!-- Bottom Navigation Bar -->
-  <nav class="bg-slate-900 border-t border-slate-800 grid grid-cols-3 text-center py-2.5">
+  <nav class="bg-slate-900/90 backdrop-blur border-t border-slate-800 grid grid-cols-3 text-center py-2 fixed bottom-0 left-0 right-0 z-50">
     <button onclick="switchTab('dashboard')" id="nav-dashboard" class="flex flex-col items-center gap-1 text-blue-400">
       <i class="fa-solid fa-gauge-high text-base"></i>
-      <span class="text-[10px] font-medium">Logbook</span>
+      <span class="text-[10px] font-bold">Logbook</span>
     </button>
     <button onclick="switchTab('register')" id="nav-register" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200">
       <i class="fa-solid fa-user-plus text-base"></i>
-      <span class="text-[10px] font-medium">Register</span>
+      <span class="text-[10px] font-bold">Register</span>
     </button>
     <button onclick="switchTab('contact')" id="nav-contact" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200">
       <i class="fa-solid fa-address-card text-base"></i>
-      <span class="text-[10px] font-medium">Contact</span>
+      <span class="text-[10px] font-bold">Contact</span>
     </button>
   </nav>
 
-  <!-- App JavaScript Logic -->
+  <!-- JavaScript Logic -->
   <script>
+    let dayHours = parseFloat(localStorage.getItem('pds_day_hours')) || 0;
+    let nightHours = parseFloat(localStorage.getItem('pds_night_hours')) || 0;
+
+    function updateUI() {
+      const total = dayHours + nightHours;
+      document.getElementById('total-hours-display').innerHTML = `${total.toFixed(1)} <span class="text-sm font-normal text-slate-400">/ 50.0 hrs</span>`;
+      document.getElementById('day-hours-display').textContent = `${dayHours.toFixed(1)} / 40.0 hrs`;
+      document.getElementById('night-hours-display').textContent = `${nightHours.toFixed(1)} / 10.0 hrs`;
+      
+      const pct = Math.min(100, Math.round((total / 50) * 100));
+      document.getElementById('percentage-display').textContent = `${pct}%`;
+      document.getElementById('progress-bar').style.width = `${pct}%`;
+    }
+
+    updateUI();
+
     function switchTab(tabName) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
       document.getElementById('tab-' + tabName).classList.remove('hidden');
@@ -226,28 +233,48 @@
 
       if (!isRunning) {
         isRunning = true;
-        btn.className = "w-full bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2";
-        btn.innerHTML = `<i class="fa-solid fa-stop"></i><span>Stop & Save Drive</span>`;
+        btn.className = "w-full bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-red-600/20 transition flex items-center justify-center gap-2 text-sm";
+        btn.innerHTML = `<i class="fa-solid fa-stop"></i><span>Stop & Save Driving Drive</span>`;
 
         timerInterval = setInterval(() => {
           seconds++;
           let hrs = Math.floor(seconds / 3600);
           let mins = Math.floor((seconds % 3600) / 60);
           let secs = seconds % 60;
-          display.textContent = 
-            `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+          display.textContent = `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
         }, 1000);
       } else {
         isRunning = false;
         clearInterval(timerInterval);
-        btn.className = "w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2";
+        
+        const addedHours = Math.max(0.1, parseFloat((seconds / 3600).toFixed(1)));
+        const driveType = document.getElementById('drive-type').value;
+
+        if (driveType === 'day') {
+          dayHours += addedHours;
+          localStorage.setItem('pds_day_hours', dayHours);
+        } else {
+          nightHours += addedHours;
+          localStorage.setItem('pds_night_hours', nightHours);
+        }
+
+        updateUI();
+
+        btn.className = "w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-blue-600/25 transition flex items-center justify-center gap-2 text-sm";
         btn.innerHTML = `<i class="fa-solid fa-play"></i><span>Start Driving Session</span>`;
-        alert(`Driving session of ${Math.max(1, Math.round(seconds/60))} minute(s) saved to Progressive Driving School Log!`);
+        
+        alert(`Session Saved! Added ${addedHours} hour(s) to your ${driveType} logbook.`);
         seconds = 0;
         display.textContent = "00:00:00";
       }
     }
+
+    function handleRegistration(e) {
+      e.preventDefault();
+      alert("Thank you! Registration details submitted to Progressive Driving School LLC.");
+    }
   </script>
 </body>
 </html>
+
 
