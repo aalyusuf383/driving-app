@@ -4,6 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Progressive Driving School LLC</title>
+  
+  <!-- PWA Manifest Link -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#020617">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Progressive">
+  <link rel="apple-touch-icon" href="IMG_0697.jpeg">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -15,7 +24,6 @@
   <!-- Top Brand Header -->
   <header class="bg-slate-900/90 backdrop-blur border-b border-slate-800 px-4 py-3 flex items-center justify-between sticky top-0 z-50">
     <div class="flex items-center gap-3">
-      <!-- Pakt hier jouw geüploade foto IMG_0697.jpeg -->
       <img src="IMG_0697.jpeg" class="w-11 h-11 rounded-xl object-cover border border-blue-500/40 shadow-md" alt="Logo">
       <div>
         <h1 class="text-xs font-black tracking-wider text-white leading-tight">PROGRESSIVE</h1>
@@ -33,6 +41,17 @@
 
     <!-- TAB 1: DRIVING LOGTRACKER -->
     <div id="tab-dashboard" class="tab-content space-y-4">
+
+      <!-- Install App Prompt Banner -->
+      <div id="install-banner" class="hidden bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-4 shadow-xl flex items-center justify-between">
+        <div>
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider">Installeer als App</h3>
+          <p class="text-[11px] text-blue-100 mt-0.5">Zet op je beginscherm voor snelle toegang!</p>
+        </div>
+        <button onclick="showInstallInstructions()" class="bg-white text-blue-900 text-xs font-bold px-3 py-2 rounded-xl shadow">
+          Installeren
+        </button>
+      </div>
 
       <!-- Ohio BMV Requirement Progress Card -->
       <div class="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden">
@@ -193,6 +212,14 @@
 
   <!-- JavaScript Logic -->
   <script>
+    if (!window.matchMedia('(display-mode: standalone)').matches && !window.navigator.standalone) {
+      document.getElementById('install-banner').classList.remove('hidden');
+    }
+
+    function showInstallInstructions() {
+      alert("Om deze app op je beginscherm te zetten:\n\n1. Tik onderin je browser op het 'Deel' icoon (vierkantje met pijltje omhoog).\n2. Scroll naar beneden en kies 'Zet op beginscherm' (Add to Home Screen).");
+    }
+
     let dayHours = parseFloat(localStorage.getItem('pds_day_hours')) || 0;
     let nightHours = parseFloat(localStorage.getItem('pds_night_hours')) || 0;
 
@@ -276,5 +303,3 @@
   </script>
 </body>
 </html>
-
-
