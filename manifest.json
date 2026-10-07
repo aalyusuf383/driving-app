@@ -1,0 +1,15 @@
+{
+  "name": "Progressive Driving School",
+  "short_name": "Progressive",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "icons": [
+    {
+      "src": "IMG_0697.jpeg",
+      "sizes": "192x192 512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
