@@ -3,116 +3,181 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>US DriveTrack</title>
+  <title>Progressive Driving School LLC</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              blue: '#1b365d',
+              lightBlue: '#2563eb',
+              accent: '#3b82f6'
+            }
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body class="bg-gray-900 text-gray-100 flex flex-col h-screen font-sans selection:bg-blue-500">
+<body class="bg-slate-950 text-slate-100 flex flex-col h-screen font-sans selection:bg-blue-600">
 
-  <!-- Top Navigation Header -->
-  <header class="bg-gray-800 border-b border-gray-700 px-4 py-3 flex items-center justify-between shadow-md">
-    <div class="flex items-center gap-2">
-      <i class="fa-solid font-bold text-blue-500 text-xl fa-car-side"></i>
-      <h1 class="text-lg font-bold tracking-wide">DriveTrack <span class="text-xs text-blue-400 border border-blue-500/30 px-1.5 py-0.5 rounded">US</span></h1>
+  <!-- Top Brand Header -->
+  <header class="bg-slate-900 border-b border-slate-800 px-4 py-3 flex items-center justify-between shadow-md">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-blue-900/60 border border-blue-500/30 flex items-center justify-center font-black text-blue-400 text-lg">
+        P
+      </div>
+      <div>
+        <h1 class="text-sm font-bold tracking-wide text-white leading-tight">PROGRESSIVE</h1>
+        <p class="text-[10px] text-blue-400 font-semibold tracking-wider">DRIVING SCHOOL • COLUMBUS, OH</p>
+      </div>
     </div>
-    <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2 py-1 rounded-full font-medium">● System Live</span>
+    <a href="tel:6147344272" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded-lg font-medium flex items-center gap-1.5 shadow">
+      <i class="fa-solid fa-phone text-[10px]"></i>
+      <span>Call</span>
+    </a>
   </header>
 
   <!-- Main Content Body -->
   <main class="flex-1 overflow-y-auto p-4 space-y-4">
 
-    <!-- TAB 1: DASHBOARD / TRACKER -->
+    <!-- TAB 1: LOGBOOK / TRACKER -->
     <div id="tab-dashboard" class="tab-content space-y-4">
-      
-      <!-- Progress Card -->
-      <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 shadow-lg">
-        <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">State Requirement Progress</h2>
-        <div class="flex justify-between items-baseline mb-2">
-          <span class="text-3xl font-extrabold text-white" id="total-hours">12.5 <span class="text-sm font-normal text-gray-400">/ 50 Uur</span></span>
-          <span class="text-sm font-semibold text-blue-400">25% Compleet</span>
+
+      <!-- Ohio BMV Requirement Progress Card -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+        <div class="flex justify-between items-start mb-2">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-blue-400 bg-blue-950 px-2 py-0.5 rounded border border-blue-800">Ohio BMV Standard</span>
+            <h2 class="text-xs font-semibold text-slate-400 mt-1">50-Hour Practice Log</h2>
+          </div>
+          <span class="text-xs font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2 py-1 rounded-full">● Active Student</span>
+        </div>
+
+        <div class="flex justify-between items-baseline my-3">
+          <span class="text-3xl font-extrabold text-white" id="total-hours">14.5 <span class="text-sm font-normal text-slate-400">/ 50 Hours</span></span>
+          <span class="text-sm font-bold text-blue-400">29% Complete</span>
         </div>
         
         <!-- Progress Bar -->
-        <div class="w-full bg-gray-700 h-3 rounded-full overflow-hidden mb-4">
-          <div class="bg-blue-500 h-full rounded-full transition-all duration-500" style="width: 25%"></div>
+        <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden mb-4">
+          <div class="bg-blue-500 h-full rounded-full transition-all duration-500" style="width: 29%"></div>
         </div>
 
-        <!-- Sub Stats -->
-        <div class="grid grid-cols-2 gap-3 pt-2 border-t border-gray-700/50">
-          <div class="bg-gray-900/50 p-2.5 rounded-xl border border-gray-700/50">
-            <span class="text-xs text-gray-400 block">☀️ Dag uren</span>
-            <span class="text-base font-bold text-gray-200">9.5 / 40 u</span>
+        <!-- Sub Stats for Ohio Requirements -->
+        <div class="grid grid-cols-2 gap-3 pt-3 border-t border-slate-800">
+          <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
+            <span class="text-xs text-slate-400 block mb-0.5">☀️ Day Hours</span>
+            <span class="text-sm font-bold text-slate-200">11.5 / 40 hrs</span>
           </div>
-          <div class="bg-gray-900/50 p-2.5 rounded-xl border border-gray-700/50">
-            <span class="text-xs text-gray-400 block">🌙 Nacht uren</span>
-            <span class="text-base font-bold text-indigo-300">3.0 / 10 u</span>
+          <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
+            <span class="text-xs text-slate-400 block mb-0.5">🌙 Night Hours</span>
+            <span class="text-sm font-bold text-indigo-300">3.0 / 10 hrs</span>
           </div>
         </div>
       </div>
 
       <!-- Quick Action: Active Driving Timer -->
-      <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 shadow-lg text-center">
-        <h3 class="text-sm font-medium text-gray-300 mb-2">Huidige Rit Oefenen</h3>
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg text-center">
+        <h3 class="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">Live Driving Session</h3>
         <div class="text-4xl font-mono font-bold text-white tracking-wider my-3" id="timer-display">00:00:00</div>
         
-        <button id="btn-timer" onclick="toggleTimer()" class="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg transition duration-200 flex items-center justify-center gap-2">
-          <i class="fa-solid fa-play"></i>
-          <span>Start Nieuwe Rit</span>
+        <button id="btn-timer" onclick="toggleTimer()" class="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-play text-sm"></i>
+          <span>Start Driving Session</span>
         </button>
       </div>
 
+      <!-- Slogan / Promotion Banner -->
+      <div class="bg-gradient-to-r from-blue-900/40 to-slate-900 border border-blue-500/20 rounded-2xl p-4 text-center">
+        <p class="text-xs text-blue-300 font-semibold italic">"Learn Today • Drive Tomorrow • Succeed for Life"</p>
+      </div>
+
       <!-- Recent Driving Logs -->
-      <div class="bg-gray-800 border border-gray-700 rounded-2xl p-4 shadow-lg space-y-3">
-        <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400">Laatste Ritten</h3>
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg space-y-3">
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Recent Logged Drives</h3>
         
-        <div class="space-y-2" id="log-list">
-          <div class="flex items-center justify-between p-3 bg-gray-900/60 rounded-xl border border-gray-700/40">
+        <div class="space-y-2">
+          <div class="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800">
             <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">☀️</div>
+              <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center text-sm">☀️</div>
               <div>
-                <p class="text-sm font-semibold text-gray-200">Highway & City Drive</p>
-                <p class="text-xs text-gray-400">Gisteren • California DMV Log</p>
+                <p class="text-sm font-semibold text-slate-200">Columbus City & Highway</p>
+                <p class="text-xs text-slate-400">Yesterday • Verified Drive</p>
               </div>
             </div>
-            <span class="text-sm font-bold text-blue-400">+1.5 u</span>
+            <span class="text-sm font-bold text-blue-400">+1.5 hrs</span>
           </div>
 
-          <div class="flex items-center justify-between p-3 bg-gray-900/60 rounded-xl border border-gray-700/40">
+          <div class="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800">
             <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center">🌙</div>
+              <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-sm">🌙</div>
               <div>
-                <p class="text-sm font-semibold text-gray-200">Night Parallel Parking</p>
-                <p class="text-xs text-gray-400">3 dagen geleden</p>
+                <p class="text-sm font-semibold text-slate-200">Night Maneuverability</p>
+                <p class="text-xs text-slate-400">3 days ago • Verified Drive</p>
               </div>
             </div>
-            <span class="text-sm font-bold text-indigo-400">+1.0 u</span>
+            <span class="text-sm font-bold text-indigo-400">+1.0 hrs</span>
           </div>
         </div>
       </div>
 
     </div>
 
-    <!-- TAB 2: SCHEDULE / PLANNER -->
-    <div id="tab-schedule" class="tab-content hidden space-y-4">
-      <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 text-center py-10">
-        <i class="fa-solid fa-calendar-days text-4xl text-blue-400 mb-3"></i>
-        <h3 class="text-lg font-bold text-white mb-1">Rijles Inplannen</h3>
-        <p class="text-xs text-gray-400 mb-4">Hier komt binnenkort de kalender voor afspraken met instructeurs.</p>
-        <button class="bg-gray-700 text-gray-300 text-xs py-2 px-4 rounded-lg cursor-not-allowed" disabled>Binnenkort beschikbaar</button>
+    <!-- TAB 2: REGISTER / INSCHRIJVEN -->
+    <div id="tab-register" class="tab-content hidden space-y-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 text-center space-y-4">
+        <div class="w-12 h-12 bg-blue-600/10 text-blue-400 rounded-2xl flex items-center justify-center mx-auto text-xl border border-blue-500/20">
+          <i class="fa-solid fa-id-card"></i>
+        </div>
+        <div>
+          <h2 class="text-lg font-bold text-white">Student Registration</h2>
+          <p class="text-xs text-slate-400 mt-1">Register for driving classes with Progressive Driving School LLC in Columbus, OH.</p>
+        </div>
+
+        <a href="https://form.jotform.com/262005642367050" target="_blank" class="block w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg transition">
+          <i class="fa-solid fa-file-pen mr-2"></i>Open Registration Form
+        </a>
+
+        <div class="pt-4 border-t border-slate-800 text-left space-y-2">
+          <h4 class="text-xs font-semibold text-slate-300">Why Choose Progressive Driving School?</h4>
+          <ul class="text-xs text-slate-400 space-y-1.5 list-disc pl-4">
+            <li>Certified Driving Instructors in Columbus, OH</li>
+            <li>Flexible Behind-the-Wheel Scheduling</li>
+            <li>Complete 50-Hour BMV Requirement Preparation</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <!-- TAB 3: INSTELLINGEN -->
-    <div id="tab-settings" class="tab-content hidden space-y-4">
-      <div class="bg-gray-800 border border-gray-700 rounded-2xl p-4 space-y-3">
-        <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400">Instellingen</h3>
-        <div class="flex justify-between items-center py-2 border-b border-gray-700/50">
-          <span class="text-sm text-gray-200">Selecteer Staat</span>
-          <span class="text-xs bg-gray-700 text-gray-300 px-2.5 py-1 rounded-md">California (50u)</span>
-        </div>
-        <div class="flex justify-between items-center py-2">
-          <span class="text-sm text-gray-200">Versie</span>
-          <span class="text-xs text-gray-400">v0.1.0 Alpha</span>
+    <!-- TAB 3: CONTACT & INFO -->
+    <div id="tab-contact" class="tab-content hidden space-y-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+        <h3 class="text-sm font-bold text-white border-b border-slate-800 pb-2">School Contact Details</h3>
+        
+        <div class="space-y-3">
+          <a href="tel:6147344272" class="flex items-center gap-3 p-3 bg-slate-950 rounded-xl border border-slate-800 hover:border-blue-500/50 transition">
+            <div class="w-9 h-9 rounded-lg bg-blue-600/10 text-blue-400 flex items-center justify-center">
+              <i class="fa-solid fa-phone"></i>
+            </div>
+            <div>
+              <p class="text-xs text-slate-400">Phone Number</p>
+              <p class="text-sm font-bold text-white">(614) 734-4272</p>
+            </div>
+          </a>
+
+          <div class="flex items-center gap-3 p-3 bg-slate-950 rounded-xl border border-slate-800">
+            <div class="w-9 h-9 rounded-lg bg-blue-600/10 text-blue-400 flex items-center justify-center">
+              <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <div>
+              <p class="text-xs text-slate-400">Location</p>
+              <p class="text-sm font-bold text-white">Columbus, Ohio</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -120,33 +185,33 @@
   </main>
 
   <!-- Bottom Navigation Bar -->
-  <nav class="bg-gray-800 border-t border-gray-700 grid grid-cols-3 text-center py-2.5">
+  <nav class="bg-slate-900 border-t border-slate-800 grid grid-cols-3 text-center py-2.5">
     <button onclick="switchTab('dashboard')" id="nav-dashboard" class="flex flex-col items-center gap-1 text-blue-400">
-      <i class="fa-solid fa-gauge-high text-lg"></i>
-      <span class="text-[10px] font-medium">Tracker</span>
+      <i class="fa-solid fa-gauge-high text-base"></i>
+      <span class="text-[10px] font-medium">Logbook</span>
     </button>
-    <button onclick="switchTab('schedule')" id="nav-schedule" class="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-200">
-      <i class="fa-solid fa-calendar text-lg"></i>
-      <span class="text-[10px] font-medium">Planning</span>
+    <button onclick="switchTab('register')" id="nav-register" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200">
+      <i class="fa-solid fa-user-plus text-base"></i>
+      <span class="text-[10px] font-medium">Register</span>
     </button>
-    <button onclick="switchTab('settings')" id="nav-settings" class="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-200">
-      <i class="fa-solid fa-sliders text-lg"></i>
-      <span class="text-[10px] font-medium">Opties</span>
+    <button onclick="switchTab('contact')" id="nav-contact" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200">
+      <i class="fa-solid fa-address-card text-base"></i>
+      <span class="text-[10px] font-medium">Contact</span>
     </button>
   </nav>
 
-  <!-- Simpele App Logica in JavaScript -->
+  <!-- App JavaScript Logic -->
   <script>
     function switchTab(tabName) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
       document.getElementById('tab-' + tabName).classList.remove('hidden');
 
-      ['dashboard', 'schedule', 'settings'].forEach(t => {
+      ['dashboard', 'register', 'contact'].forEach(t => {
         const btn = document.getElementById('nav-' + t);
         if (t === tabName) {
           btn.className = "flex flex-col items-center gap-1 text-blue-400";
         } else {
-          btn.className = "flex flex-col items-center gap-1 text-gray-400 hover:text-gray-200";
+          btn.className = "flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200";
         }
       });
     }
@@ -161,8 +226,8 @@
 
       if (!isRunning) {
         isRunning = true;
-        btn.className = "w-full bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg transition duration-200 flex items-center justify-center gap-2";
-        btn.innerHTML = `<i class="fa-solid fa-stop"></i><span>Stop & Opslaan</span>`;
+        btn.className = "w-full bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2";
+        btn.innerHTML = `<i class="fa-solid fa-stop"></i><span>Stop & Save Drive</span>`;
 
         timerInterval = setInterval(() => {
           seconds++;
@@ -175,9 +240,9 @@
       } else {
         isRunning = false;
         clearInterval(timerInterval);
-        btn.className = "w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg transition duration-200 flex items-center justify-center gap-2";
-        btn.innerHTML = `<i class="fa-solid fa-play"></i><span>Start Nieuwe Rit</span>`;
-        alert(`Rit van ${Math.max(1, Math.round(seconds/60))} minuten opgeslagen!`);
+        btn.className = "w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2";
+        btn.innerHTML = `<i class="fa-solid fa-play"></i><span>Start Driving Session</span>`;
+        alert(`Driving session of ${Math.max(1, Math.round(seconds/60))} minute(s) saved to Progressive Driving School Log!`);
         seconds = 0;
         display.textContent = "00:00:00";
       }
@@ -185,3 +250,4 @@
   </script>
 </body>
 </html>
+
