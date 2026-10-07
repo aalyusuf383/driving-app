@@ -21,13 +21,19 @@
       background-color: #0a0f1d;
     }
     
+    /* Header Safe Area padding voor iOS Notch / Dynamic Island */
+    .safe-top-header {
+      padding-top: max(env(safe-area-inset-top), 28px);
+    }
+
     /* Floating iOS Floating Glass Bar Effect */
     .glass-floating-nav {
-      background: rgba(15, 23, 42, 0.75);
+      background: rgba(15, 23, 42, 0.85);
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
       border: 1px solid rgba(255, 255, 255, 0.12);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      padding-bottom: max(env(safe-area-inset-bottom), 12px);
     }
 
     .glass-card {
@@ -38,7 +44,7 @@
     }
     
     .glass-nav {
-      background: rgba(10, 15, 29, 0.92);
+      background: rgba(10, 15, 29, 0.95);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -54,7 +60,23 @@
       -webkit-text-fill-color: transparent;
     }
 
-    /* Splash Screen Fade Out */
+    /* Fix voor Datumveld text-overflow */
+    input[type="date"] {
+      appearance: none;
+      -webkit-appearance: none;
+      min-height: 42px;
+      font-size: 11px;
+    }
+
+    /* Canvas styling voor handtekening */
+    .sig-canvas {
+      touch-action: none;
+      background: #050811;
+      border: 1px dashed rgba(212, 175, 55, 0.4);
+      border-radius: 12px;
+      cursor: crosshair;
+    }
+
     #splash-screen {
       transition: opacity 0.5s ease-out, visibility 0.5s;
     }
@@ -68,7 +90,7 @@
 </head>
 <body class="bg-slate-950 text-slate-100 flex flex-col h-screen font-sans selection:bg-amber-500 overflow-hidden">
 
-  <!-- 1. SPLASH SCREEN (Opstartscherm met Logo) -->
+  <!-- 1. SPLASH SCREEN -->
   <div id="splash-screen" class="fixed inset-0 bg-slate-950 z-[100] flex flex-col items-center justify-center p-6 text-center">
     <div class="relative mb-6">
       <img src="Picture.PNG" class="w-28 h-28 rounded-3xl object-cover border-2 border-amber-500/50 shadow-2xl shadow-amber-500/20 animate-pulse" alt="App Logo">
@@ -111,8 +133,8 @@
   <!-- MAIN APP CONTAINER -->
   <div id="app-container" class="flex flex-col h-full w-full hidden">
 
-    <!-- Top Brand Header -->
-    <header class="glass-nav px-4 py-3 pt-10 flex items-center justify-between sticky top-0 z-40">
+    <!-- Top Brand Header aangepast voor Dynamic Island -->
+    <header class="glass-nav px-4 pb-3 safe-top-header flex items-center justify-between sticky top-0 z-40">
       <div class="flex items-center gap-3">
         <div class="relative">
           <img src="IMG_0711.jpeg" class="w-10 h-10 rounded-xl object-cover border border-amber-500/40 shadow-lg shadow-amber-500/10" alt="Logo">
@@ -135,12 +157,11 @@
     </header>
 
     <!-- Main Content Area -->
-    <main class="flex-1 overflow-y-auto p-4 space-y-4 pb-32">
+    <main class="flex-1 overflow-y-auto p-4 space-y-4 pb-36">
 
       <!-- TAB 1: DRIVING LOGTRACKER -->
       <div id="tab-dashboard" class="tab-content space-y-4">
 
-        <!-- Ohio BMV Requirement Progress Card -->
         <div class="glass-card rounded-3xl p-5 shadow-2xl relative overflow-hidden">
           <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
           
@@ -166,12 +187,10 @@
             </div>
           </div>
           
-          <!-- Dynamic Progress Bar -->
           <div class="w-full bg-slate-900/90 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-800 shadow-inner mb-4">
             <div id="progress-bar" class="gold-gradient h-full rounded-full transition-all duration-700 shadow-md" style="width: 0%"></div>
           </div>
 
-          <!-- Day & Night Breakdown -->
           <div class="grid grid-cols-2 gap-3 pt-3 border-t border-slate-800/80">
             <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800">
               <div class="flex items-center gap-1.5 mb-1">
@@ -190,14 +209,12 @@
           </div>
         </div>
 
-        <!-- Live Driving Timer -->
         <div class="glass-card rounded-3xl p-5 shadow-2xl text-center relative">
           <div class="flex justify-between items-center mb-3 px-1">
             <span class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
               <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> Practice Tracker
             </span>
             
-            <!-- Selector met Lock-functie bij actieve timer -->
             <select id="drive-type" class="bg-slate-950 border border-slate-800 text-xs font-semibold text-slate-200 rounded-xl px-2.5 py-1.5 outline-none focus:border-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition">
               <option value="day">☀️ Day Drive</option>
               <option value="night">🌙 Night Drive</option>
@@ -212,7 +229,6 @@
           </button>
         </div>
 
-        <!-- Recent Log History -->
         <div class="glass-card rounded-3xl p-5 shadow-2xl space-y-3">
           <div class="flex justify-between items-center border-b border-slate-800/80 pb-2.5">
             <h3 class="text-xs font-bold text-white uppercase tracking-wider">Drive History</h3>
@@ -225,7 +241,7 @@
 
       </div>
 
-      <!-- TAB 2: PACKAGES & PRICING -->
+      <!-- TAB 2: PACKAGES -->
       <div id="tab-packages" class="tab-content hidden space-y-4">
         <div class="glass-card rounded-3xl p-5 space-y-4 shadow-2xl">
           <div class="border-b border-slate-800/80 pb-3">
@@ -274,7 +290,7 @@
         </div>
       </div>
 
-      <!-- TAB 3: VOLLEDIG INSCHRIJFFORMULIER (VANUIT HET DOCUMENT) -->
+      <!-- TAB 3: VOLLEDIG INSCHRIJFFORMULIER MET CANVAS SIGNATURE & FIXED DATE INPUTS -->
       <div id="tab-register" class="tab-content hidden space-y-4">
         <div class="glass-card rounded-3xl p-5 space-y-4 shadow-2xl">
           <div class="border-b border-slate-800/80 pb-3">
@@ -294,14 +310,15 @@
                 <input type="text" id="reg-name" required placeholder="First and Last Name" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
               </div>
 
-              <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <label class="font-semibold text-slate-300 block mb-1">Phone Number *</label>
-                  <input type="tel" id="reg-phone" required placeholder="(614) 000-0000" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+              <!-- Grid met min-w-0 fix voor datum input op iOS -->
+              <div class="grid grid-cols-2 gap-2.5">
+                <div class="min-w-0">
+                  <label class="font-semibold text-slate-300 block mb-1 truncate">Phone Number *</label>
+                  <input type="tel" id="reg-phone" required placeholder="(614) 000-0000" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3 py-2.5 text-white outline-none focus:border-amber-500 text-xs">
                 </div>
-                <div>
-                  <label class="font-semibold text-slate-300 block mb-1">Date of Birth *</label>
-                  <input type="date" id="reg-dob" required class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+                <div class="min-w-0">
+                  <label class="font-semibold text-slate-300 block mb-1 truncate">Date of Birth *</label>
+                  <input type="date" id="reg-dob" required class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-2 py-2 text-white outline-none focus:border-amber-500 text-xs">
                 </div>
               </div>
 
@@ -316,44 +333,46 @@
               </div>
 
               <div class="grid grid-cols-3 gap-2">
-                <div class="col-span-1">
+                <div class="col-span-1 min-w-0">
                   <label class="font-semibold text-slate-300 block mb-1">City *</label>
                   <input type="text" id="reg-city" required placeholder="Columbus" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-2.5 py-2.5 text-white outline-none focus:border-amber-500">
                 </div>
-                <div>
+                <div class="min-w-0">
                   <label class="font-semibold text-slate-300 block mb-1">State *</label>
                   <input type="text" id="reg-state" value="OH" required class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-2.5 py-2.5 text-white outline-none focus:border-amber-500">
                 </div>
-                <div>
+                <div class="min-w-0">
                   <label class="font-semibold text-slate-300 block mb-1">Zip *</label>
                   <input type="text" id="reg-zip" required placeholder="43231" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-2.5 py-2.5 text-white outline-none focus:border-amber-500">
                 </div>
               </div>
             </div>
 
-            <!-- Permit Details & Uploads -->
+            <!-- Permit Details & File Uploads -->
             <div class="space-y-3 pt-2 border-t border-slate-800/80">
               <h3 class="font-bold text-amber-400 uppercase tracking-wider text-[10px]">2. Permit & Documentation</h3>
               
-              <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <label class="font-semibold text-slate-300 block mb-1">Permit Number *</label>
-                  <input type="text" id="reg-permit" required placeholder="OH Perm #" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+              <div class="grid grid-cols-2 gap-2.5">
+                <div class="min-w-0">
+                  <label class="font-semibold text-slate-300 block mb-1 truncate">Permit Number *</label>
+                  <input type="text" id="reg-permit" required placeholder="OH Perm #" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3 py-2.5 text-white outline-none focus:border-amber-500 text-xs">
                 </div>
-                <div>
-                  <label class="font-semibold text-slate-300 block mb-1">Expiration Date *</label>
-                  <input type="date" id="reg-permit-exp" required class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-amber-500">
+                <div class="min-w-0">
+                  <label class="font-semibold text-slate-300 block mb-1 truncate">Expiration Date *</label>
+                  <input type="date" id="reg-permit-exp" required class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-2 py-2 text-white outline-none focus:border-amber-500 text-xs">
                 </div>
               </div>
 
               <div>
                 <label class="font-semibold text-slate-300 block mb-1">Upload Temporary Permit *</label>
-                <input type="file" id="reg-file-permit" accept="image/*,.pdf" class="w-full text-slate-400 text-xs bg-slate-950/80 border border-slate-800 rounded-xl p-2 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-amber-500 file:text-slate-950 file:font-bold">
+                <p class="text-[10px] text-slate-400 mb-1.5">Upload a photo/PDF of your physical state driving permit.</p>
+                <input type="file" id="reg-file-permit" accept="image/*,.pdf" class="w-full text-slate-400 text-xs bg-slate-950/80 border border-slate-800 rounded-xl p-2 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-amber-500 file:text-slate-950 file:font-bold">
               </div>
 
               <div>
                 <label class="font-semibold text-slate-300 block mb-1">Upload 24h Online Certificate (If completed)</label>
-                <input type="file" id="reg-file-cert" accept="image/*,.pdf" class="w-full text-slate-400 text-xs bg-slate-950/80 border border-slate-800 rounded-xl p-2 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-slate-800 file:text-slate-300 file:font-bold">
+                <p class="text-[10px] text-slate-400 mb-1.5">Upload proof of completion if you took online driver ed elsewhere.</p>
+                <input type="file" id="reg-file-cert" accept="image/*,.pdf" class="w-full text-slate-400 text-xs bg-slate-950/80 border border-slate-800 rounded-xl p-2 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-slate-800 file:text-slate-300 file:font-bold">
               </div>
             </div>
 
@@ -382,7 +401,7 @@
               </div>
             </div>
 
-            <!-- Terms & Digital Signature -->
+            <!-- Terms & INTERACTIEVE CANVAS HANDTEKENING (Tekenen met vinger) -->
             <div class="space-y-3 pt-2 border-t border-slate-800/80">
               <h3 class="font-bold text-amber-400 uppercase tracking-wider text-[10px]">4. School Policies & Signatures</h3>
               
@@ -397,14 +416,22 @@
                 <label for="reg-agree" class="text-[11px] text-slate-300">I agree to the Progressive Driving School LLC terms, policies, and Ohio BMV regulations.</label>
               </div>
 
-              <div class="grid grid-cols-2 gap-3 pt-1">
+              <!-- Signature Canvas Boxes -->
+              <div class="space-y-3 pt-2">
                 <div>
-                  <label class="font-semibold text-slate-300 block mb-1">Parent/Guardian Sig.</label>
-                  <input type="text" id="reg-sig-parent" placeholder="Full Signature" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3 py-2 text-white outline-none text-xs">
+                  <div class="flex justify-between items-center mb-1">
+                    <label class="font-semibold text-slate-300">Parent / Guardian Signature</label>
+                    <button type="button" id="clear-parent-sig" class="text-[10px] text-amber-400 hover:text-amber-300 font-bold"><i class="fa-solid fa-eraser"></i> Clear</button>
+                  </div>
+                  <canvas id="canvas-parent-sig" class="sig-canvas w-full h-24"></canvas>
                 </div>
+
                 <div>
-                  <label class="font-semibold text-slate-300 block mb-1">Student Signature *</label>
-                  <input type="text" id="reg-sig-student" required placeholder="Full Signature" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3 py-2 text-white outline-none text-xs">
+                  <div class="flex justify-between items-center mb-1">
+                    <label class="font-semibold text-slate-300">Student Signature *</label>
+                    <button type="button" id="clear-student-sig" class="text-[10px] text-amber-400 hover:text-amber-300 font-bold"><i class="fa-solid fa-eraser"></i> Clear</button>
+                  </div>
+                  <canvas id="canvas-student-sig" class="sig-canvas w-full h-24"></canvas>
                 </div>
               </div>
             </div>
@@ -449,7 +476,7 @@
     </main>
 
     <!-- FLOATING iOS/ANDROID GLASS NAVIGATION BAR -->
-    <nav class="fixed bottom-5 left-4 right-4 z-50 glass-floating-nav rounded-3xl py-3 px-2 grid grid-cols-4 text-center items-center">
+    <nav class="fixed bottom-3 left-4 right-4 z-50 glass-floating-nav rounded-3xl py-2.5 px-2 grid grid-cols-4 text-center items-center">
       <button onclick="switchTab('dashboard')" id="nav-dashboard" class="flex flex-col items-center gap-1 gold-text transition">
         <i class="fa-solid fa-gauge-high text-base"></i>
         <span class="text-[9px] font-bold">Logbook</span>
@@ -470,10 +497,8 @@
 
   </div>
 
-  <!-- Hidden Printable PDF Container -->
   <div id="printable-logbook" class="hidden"></div>
 
-  <!-- JavaScript App Logic -->
   <script>
     // Splash Screen Handling
     window.addEventListener('DOMContentLoaded', () => {
@@ -482,6 +507,10 @@
         splash.style.opacity = '0';
         setTimeout(() => splash.style.display = 'none', 500);
       }, 1500);
+
+      // Initialiseer Signature Canvassen
+      setupSignatureCanvas('canvas-parent-sig', 'clear-parent-sig');
+      setupSignatureCanvas('canvas-student-sig', 'clear-student-sig');
     });
 
     function enterPortal() {
@@ -564,7 +593,6 @@
     let seconds = 0;
     let isRunning = false;
 
-    // Timer met automatische dropdown-vergrendeling bij een actieve rit
     function toggleTimer() {
       const btn = document.getElementById('btn-timer');
       const display = document.getElementById('timer-display');
@@ -572,7 +600,7 @@
 
       if (!isRunning) {
         isRunning = true;
-        driveTypeSelect.disabled = true; // Blokkeer type-wissel tijdens rit
+        driveTypeSelect.disabled = true;
 
         btn.className = "w-full bg-gradient-to-r from-rose-600 to-red-600 active:scale-98 text-white font-bold py-3.5 px-4 rounded-2xl shadow-xl shadow-rose-600/20 border border-rose-400/20 transition flex items-center justify-center gap-2 text-xs";
         btn.innerHTML = `<i class="fa-solid fa-stop"></i><span>Stop & Save Drive</span>`;
@@ -587,7 +615,7 @@
       } else {
         isRunning = false;
         clearInterval(timerInterval);
-        driveTypeSelect.disabled = false; // Ontgrendel type-wissel
+        driveTypeSelect.disabled = false;
 
         const addedHours = Math.max(0.1, parseFloat((seconds / 3600).toFixed(1)));
         const driveType = driveTypeSelect.value;
@@ -615,8 +643,66 @@
       }
     }
 
+    // Interactive Signature Canvas Logic
+    function setupSignatureCanvas(canvasId, clearBtnId) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let drawing = false;
+
+      function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+        ctx.strokeStyle = '#fcf6ba';
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+      }
+
+      setTimeout(resizeCanvas, 300);
+
+      function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return { x: clientX - rect.left, y: clientY - rect.top };
+      }
+
+      function startDraw(e) {
+        drawing = true;
+        const pos = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+        e.preventDefault();
+      }
+
+      function moveDraw(e) {
+        if (!drawing) return;
+        const pos = getPos(e);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+        e.preventDefault();
+      }
+
+      function stopDraw() { drawing = false; }
+
+      canvas.addEventListener('mousedown', startDraw);
+      canvas.addEventListener('mousemove', moveDraw);
+      window.addEventListener('mouseup', stopDraw);
+
+      canvas.addEventListener('touchstart', startDraw, {passive: false});
+      canvas.addEventListener('touchmove', moveDraw, {passive: false});
+      canvas.addEventListener('touchend', stopDraw);
+
+      document.getElementById(clearBtnId).addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+    }
+
     function handleRegistration(e) {
       e.preventDefault();
+
       const newReg = {
         name: document.getElementById('reg-name').value,
         phone: document.getElementById('reg-phone').value,
@@ -627,7 +713,7 @@
         permitExp: document.getElementById('reg-permit-exp').value,
         service: document.getElementById('reg-service').value,
         payment: document.getElementById('reg-payment').value,
-        sigStudent: document.getElementById('reg-sig-student').value,
+        studentSig: document.getElementById('canvas-student-sig').toDataURL(),
         date: new Date().toLocaleDateString()
       };
 
@@ -664,7 +750,7 @@
       }
 
       list.innerHTML = registrations.map((r) => `
-        <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800/80 space-y-1 text-[11px]">
+        <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800/80 space-y-1.5 text-[11px]">
           <div class="flex justify-between font-bold text-white">
             <span>${r.name}</span>
             <span class="gold-text text-[10px]">${r.date}</span>
@@ -672,6 +758,7 @@
           <p class="text-slate-400"><i class="fa-solid fa-phone text-[9px] mr-1"></i> ${r.phone} | <i class="fa-solid fa-envelope text-[9px] mr-1"></i> ${r.email}</p>
           <p class="text-slate-400"><i class="fa-solid fa-id-card text-[9px] mr-1"></i> Perm #: ${r.permit} (Exp: ${r.permitExp})</p>
           <p class="text-amber-400 font-semibold">${r.service} • ${r.payment}</p>
+          ${r.studentSig ? `<div class="mt-1"><p class="text-[9px] text-slate-500">Student Signature:</p><img src="${r.studentSig}" class="h-10 border border-slate-800 rounded bg-black p-1"/></div>` : ''}
         </div>
       `).join('');
     }
@@ -707,11 +794,6 @@
               `).join('')}
             </tbody>
           </table>
-          <br/><br/>
-          <div style="border-top: 2px solid #000; width: 250px; padding-top: 5px;">
-            <p style="margin:0;"><strong>Instructor Signature:</strong></p>
-            <p style="margin:0; font-size: 12px; color: #666;">Progressive Driving School LLC</p>
-          </div>
         </div>
       `;
       window.print();
